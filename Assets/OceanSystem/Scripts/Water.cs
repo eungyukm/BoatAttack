@@ -160,7 +160,6 @@ namespace WaterSystem
             }
             _planarReflections.hideFlags = HideFlags.HideAndDontSave | HideFlags.HideInInspector;
             _planarReflections.m_settings = settingsData.planarSettings;
-            _planarReflections.enabled = settingsData.refType == ReflectionType.PlanarReflection;
 
             if(resources == null)
             {

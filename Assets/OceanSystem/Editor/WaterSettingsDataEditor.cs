@@ -7,9 +7,7 @@ namespace WaterSystem.Data
     {
 		public override void OnInspectorGUI()
         {
-			var geomType = serializedObject.FindProperty("waterGeomType");
-			EditorGUILayout.PropertyField(geomType);
-			var planarSettings = serializedObject.FindProperty("planarSettings");
+	        var planarSettings = serializedObject.FindProperty("planarSettings");
 			EditorGUILayout.PropertyField(planarSettings, true);
 			serializedObject.ApplyModifiedProperties();
 		}
