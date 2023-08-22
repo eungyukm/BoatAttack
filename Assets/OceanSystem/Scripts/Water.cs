@@ -39,9 +39,6 @@ namespace WaterSystem
         private ComputeBuffer waveBuffer;
         private float _maxWaveHeight;
         private float _waveHeight;
-
-        [SerializeField]
-        public WaterSettingsData settingsData;
         [SerializeField]
         public WaterSurfaceData surfaceData;
         [SerializeField]
@@ -159,7 +156,6 @@ namespace WaterSystem
                 _planarReflections = gameObject.AddComponent<PlanarReflections>();
             }
             _planarReflections.hideFlags = HideFlags.HideAndDontSave | HideFlags.HideInInspector;
-            _planarReflections.m_settings = settingsData.planarSettings;
 
             if(resources == null)
             {

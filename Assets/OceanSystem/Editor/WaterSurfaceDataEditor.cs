@@ -60,13 +60,12 @@ namespace WaterSystem.Data
                         waveDir.floatValue = CameraRelativeDirection();
                 }
                 else
-                {// Omni-Directional
+                {
                     EditorGUIUtility.wideMode = true;
                     var waveOrig = element.FindPropertyRelative("origin");
                     waveOrig.vector2Value = EditorGUI.Vector2Field(dirRect, "Point of Origin", waveOrig.vector2Value);
                     if(GUI.Button(buttonRect, "Project Origin from Scene Camera"))
                         waveOrig.vector2Value = CameraRelativeOrigin(waveOrig.vector2Value);
-                    //EditorGUIUtility.labelWidth = perWidth;
                 }
             };
 
@@ -126,7 +125,6 @@ namespace WaterSystem.Data
             EditorGUILayout.Slider(maxDepth, 3, 300, new GUIContent("Maximum Visibility", maxDepthTT));
             // Colouring settings
             DoSmallHeader("Coloring Controls");
-            // Absorbstion Ramp
             var absorpRamp = serializedObject.FindProperty("_absorptionRamp");
             EditorGUILayout.PropertyField(absorpRamp, new GUIContent("Absorption Color", absorpRampTT), true, null);
             // Scatter Ramp
@@ -174,59 +172,33 @@ namespace WaterSystem.Data
             EditorGUI.indentLevel -= 1;
             EditorGUILayout.LabelField("Wave Settings", EditorStyles.boldLabel);
             EditorGUI.indentLevel += 1;
-            // Wave type - Automatic / Customized
-            //wavesType = EditorGUILayout.Popup("System Type", wavesType, wavesTypeOptions);
-            // Toolbar labels here
-            
-            var customWaves = serializedObject.FindProperty("_customWaves");
-            var intVal = customWaves.boolValue ? 1 : 0;
-            intVal = GUILayout.Toolbar(intVal, wavesTypeOptions);
-            customWaves.boolValue = intVal == 1 ? true : false;
 
             EditorGUILayout.Space();
 
-            switch(customWaves.boolValue ? 1 : 0)
-            {
-            case 0: //// Automatic ////
-            {
-                var basicSettings = serializedObject.FindProperty("_basicWaveSettings");
-                // Wave count (display warning of on mobile platform and over 6) dropdown  1 > 10
-                var autoCount = basicSettings.FindPropertyRelative("numWaves");
-                EditorGUILayout.IntSlider(autoCount, 1, 10, new GUIContent("Wave Count", waveCountTT), null);
-                // Average Wave height - slider 0.05 - 30
-                var avgHeight = basicSettings.FindPropertyRelative("amplitude");
-                EditorGUILayout.Slider(avgHeight, 0.1f, 30.0f, new GUIContent("Avg Swell Height", avgHeightTT), null);
-                // Average Wavelength - slider 1 - 200
-                var avgWavelength = basicSettings.FindPropertyRelative("wavelength");
-                EditorGUILayout.Slider(avgWavelength, 1.0f, 200.0f, new GUIContent("Avg Wavelength", avgWavelengthTT), null);
-                // Wind direction - slider -180-180
-                EditorGUILayout.BeginHorizontal();
-                var windDir = basicSettings.FindPropertyRelative("direction");
-                EditorGUILayout.Slider(windDir, -180.0f, 180.0f, new GUIContent("Wind Direction", windDirTT), null);
-                if(GUILayout.Button(new GUIContent("Align to scene camera", alignButtonTT)))
-                    windDir.floatValue = CameraRelativeDirection();
-                EditorGUILayout.EndHorizontal();
-                        // [override] - random otherwise(on creation/override check)
-                        // Random seed - int input
-                        EditorGUILayout.BeginHorizontal();
-				var randSeed = serializedObject.FindProperty("randomSeed");
-                        randSeed.intValue = EditorGUILayout.IntField(new GUIContent("Random Seed", randSeedTT), randSeed.intValue);
-                        if (GUILayout.Button("Randomize Waves"))
-				{
-					randSeed.intValue = System.DateTime.Now.Millisecond * 100 - System.DateTime.Now.Millisecond;
-				}
-                        EditorGUILayout.EndHorizontal();
-            }
-            break;
-            case 1: //// Customized ////
-            {
-                        EditorGUI.indentLevel -= 1;
-                        // Re-orderable list with wave details
-                        waveList.DoLayoutList();
-            }
-            break;
-            }
 
+
+            var basicSettings = serializedObject.FindProperty("_basicWaveSettings");
+            
+            var autoCount = basicSettings.FindPropertyRelative("numWaves");
+            EditorGUILayout.IntSlider(autoCount, 1, 10, new GUIContent("Wave Count", waveCountTT), null);
+            var avgHeight = basicSettings.FindPropertyRelative("amplitude");
+            EditorGUILayout.Slider(avgHeight, 0.1f, 30.0f, new GUIContent("Avg Swell Height", avgHeightTT), null);
+            var avgWavelength = basicSettings.FindPropertyRelative("wavelength");
+            EditorGUILayout.Slider(avgWavelength, 1.0f, 200.0f, new GUIContent("Avg Wavelength", avgWavelengthTT), null);
+            EditorGUILayout.BeginHorizontal();
+            var windDir = basicSettings.FindPropertyRelative("direction");
+            EditorGUILayout.Slider(windDir, -180.0f, 180.0f, new GUIContent("Wind Direction", windDirTT), null);
+            if(GUILayout.Button(new GUIContent("Align to scene camera", alignButtonTT)))
+                windDir.floatValue = CameraRelativeDirection();
+            EditorGUILayout.EndHorizontal();
+            EditorGUILayout.BeginHorizontal();
+            var randSeed = serializedObject.FindProperty("randomSeed");
+            randSeed.intValue = EditorGUILayout.IntField(new GUIContent("Random Seed", randSeedTT), randSeed.intValue);
+            if (GUILayout.Button("Randomize Waves"))
+            {
+                randSeed.intValue = System.DateTime.Now.Millisecond * 100 - System.DateTime.Now.Millisecond;
+            }
+            EditorGUILayout.EndHorizontal();
             EditorUtility.SetDirty(this);
             serializedObject.ApplyModifiedProperties();
         }
@@ -255,7 +227,7 @@ namespace WaterSystem.Data
             EditorUtility.SetDirty(wsd);
         }
 
-        Gradient DefaultAbsorptionGrad() // Preset for absorption
+        Gradient DefaultAbsorptionGrad()
         {
             Gradient g = new Gradient();
             GradientColorKey[] gck = new GradientColorKey[5];
