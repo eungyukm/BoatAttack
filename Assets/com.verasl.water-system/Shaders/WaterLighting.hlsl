@@ -81,15 +81,8 @@ half3 SampleReflections(half3 normalWS, half3 viewDirectionWS, half2 screenUV, h
 {
     half3 reflection = 0;
     half2 refOffset = 0;
-
-#if _REFLECTION_CUBEMAP
-    half3 reflectVector = reflect(-viewDirectionWS, normalWS);
-    reflection = SAMPLE_TEXTURECUBE(_CubemapTexture, sampler_CubemapTexture, reflectVector).rgb;
-#elif _REFLECTION_PROBES
-    half3 reflectVector = reflect(-viewDirectionWS, normalWS);
-    reflection = GlossyEnvironmentReflection(reflectVector, 0, 1);
-#elif _REFLECTION_PLANARREFLECTION
-
+    
+#if _REFLECTION_PLANARREFLECTION
     // get the perspective projection
     float2 p11_22 = float2(unity_CameraInvProjection._11, unity_CameraInvProjection._22) * 10;
     // conver the uvs into view space by "undoing" projection

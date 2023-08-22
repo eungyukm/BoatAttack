@@ -41,9 +41,6 @@ namespace BoatAttack
         // TODO - need to validate logic here (not smooth at all in demo)
         private void Update()
         {
-            GerstnerWavesJobs.UpdateSamplePoints(ref _points, _guid);
-            GerstnerWavesJobs.GetData(_guid, ref _heights, ref _normals);
-
             for (int i = 0; i < surfers.Length; i++)
             {
                 _smoothPositions[i] = surfers[i].position;

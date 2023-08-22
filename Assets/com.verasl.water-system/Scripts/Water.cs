@@ -83,11 +83,6 @@ namespace WaterSystem
             Cleanup();
         }
 
-        private void OnApplicationQuit()
-        {
-            GerstnerWavesJobs.Cleanup();
-        }
-
         void Cleanup()
         {
             RenderPipelineManager.beginCameraRendering -= BeginCameraRendering;
@@ -175,11 +170,6 @@ namespace WaterSystem
                 CaptureDepthMap();
         }
 
-        private void LateUpdate()
-        {
-            GerstnerWavesJobs.UpdateHeights();
-        }
-
         public void FragWaveNormals(bool toggle)
         {
             var mat = GetComponent<Renderer>().sharedMaterial;
@@ -248,9 +238,6 @@ namespace WaterSystem
                 Shader.DisableKeyword("USE_STRUCTURED_BUFFER");
                 Shader.SetGlobalVectorArray(WaveData, GetWaveData());
             }
-            //CPU side
-            if(GerstnerWavesJobs.Initialized == false && Application.isPlaying)
-                GerstnerWavesJobs.Init();
         }
 
         private Vector4[] GetWaveData()

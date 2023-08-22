@@ -47,8 +47,6 @@ namespace BoatAttack
 
             // Get the water level from the engines position and store it
             _point[0] = transform.TransformPoint(enginePosition);
-            GerstnerWavesJobs.UpdateSamplePoints(ref _point, _guid);
-            GerstnerWavesJobs.GetData(_guid, ref _heights, ref _normals);
             _yHeight = _heights[0].y - _point[0].y;
         }
 

@@ -57,9 +57,6 @@ public class BuoyManager : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        GerstnerWavesJobs.UpdateSamplePoints(ref _samplePoints, _guid);
-        GerstnerWavesJobs.GetData(_guid, ref _heights, ref _normals);
-        
         for (var i = 0; i < _buoys.Length; i++)
         {
             var vec  = _buoys[i].position;
