@@ -199,28 +199,10 @@ namespace WaterSystem
             Shader.SetGlobalFloat(WaveHeight, _waveHeight);
             Shader.SetGlobalFloat(MaxWaveHeight, _maxWaveHeight);
             Shader.SetGlobalFloat(MaxDepth, surfaceData._waterMaxVisibility);
-
-            switch(settingsData.refType)
-            {
-                case ReflectionType.Cubemap:
-                    Shader.EnableKeyword("_REFLECTION_CUBEMAP");
-                    Shader.DisableKeyword("_REFLECTION_PROBES");
-                    Shader.DisableKeyword("_REFLECTION_PLANARREFLECTION");
-                    Shader.SetGlobalTexture(CubemapTexture, settingsData.cubemapRefType);
-                    break;
-                case ReflectionType.ReflectionProbe:
-                    Shader.DisableKeyword("_REFLECTION_CUBEMAP");
-                    Shader.EnableKeyword("_REFLECTION_PROBES");
-                    Shader.DisableKeyword("_REFLECTION_PLANARREFLECTION");
-                    break;
-                case ReflectionType.PlanarReflection:
-                    Shader.DisableKeyword("_REFLECTION_CUBEMAP");
-                    Shader.DisableKeyword("_REFLECTION_PROBES");
-                    Shader.EnableKeyword("_REFLECTION_PLANARREFLECTION");
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
+            
+            Shader.DisableKeyword("_REFLECTION_CUBEMAP");
+            Shader.DisableKeyword("_REFLECTION_PROBES");
+            Shader.EnableKeyword("_REFLECTION_PLANARREFLECTION");
 
             Shader.SetGlobalInt(WaveCount, _waves.Length);
 
@@ -321,9 +303,6 @@ namespace WaterSystem
             Shader.SetGlobalTexture(AbsorptionScatteringRamp, _rampTexture);
         }
 
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        ////////////////////////////////////////Shoreline Depth Texture/////////////////////////////////////////////////
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         [ContextMenu("Capture Depth")]
         public void CaptureDepthMap()
@@ -354,7 +333,7 @@ namespace WaterSystem
             _depthCam.allowHDR = false;
             _depthCam.allowMSAA = false;
             _depthCam.cullingMask = (1 << 10);
-            //Generate RT
+            
             if (!_depthTex)
                 _depthTex = new RenderTexture(1024, 1024, 24, RenderTextureFormat.Depth, RenderTextureReadWrite.Linear);
             if (SystemInfo.graphicsDeviceType == GraphicsDeviceType.OpenGLES2 || SystemInfo.graphicsDeviceType == GraphicsDeviceType.OpenGLES3)
@@ -363,22 +342,15 @@ namespace WaterSystem
             }
             _depthTex.wrapMode = TextureWrapMode.Clamp;
             _depthTex.name = "WaterDepthMap";
-            //do depth capture
+            
             _depthCam.targetTexture = _depthTex;
             _depthCam.Render();
             Shader.SetGlobalTexture(WaterDepthMap, _depthTex);
-            // set depth bufferParams for depth cam(since it doesnt exist and only temporary)
+            
             var _params = new Vector4(t.position.y, 250, 0, 0);
-            //Vector4 zParams = new Vector4(1-f/n, f/n, (1-f/n)/f, (f/n)/f);//2015
+            
             Shader.SetGlobalVector(DepthCamZParams, _params);
-
-/*            #if UNITY_EDITOR
-            Texture2D tex2D = new Texture2D(1024, 1024, TextureFormat.Alpha8, false);
-            Graphics.CopyTexture(_depthTex, tex2D);
-            byte[] image = tex2D.EncodeToPNG();
-            System.IO.File.WriteAllBytes(Application.dataPath + "/WaterDepth.png", image);
-            #endif*/
-
+            
             _depthCam.enabled = false;
             _depthCam.targetTexture = null;
         }
