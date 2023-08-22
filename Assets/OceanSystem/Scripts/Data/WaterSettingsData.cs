@@ -9,9 +9,7 @@ namespace WaterSystem.Data
 	    public ReflectionType refType = ReflectionType.PlanarReflection; // How the reflecitons are generated
 		// planar
 		public PlanarReflections.PlanarReflectionSettings planarSettings; // Planar reflection settings
-		
-		public Vector4 originOffset = new Vector4(0f, 0f, 500f, 500f);
-	}
+    }
     
 	[System.Serializable]
 	public enum ReflectionType

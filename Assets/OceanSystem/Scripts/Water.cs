@@ -354,8 +354,5 @@ namespace WaterSystem
             _depthCam.enabled = false;
             _depthCam.targetTexture = null;
         }
-
-        [Serializable]
-        public enum DebugMode { none, stationary, screen };
     }
 }

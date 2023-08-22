@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEditor;
 using UnityEditorInternal;
 
@@ -20,7 +18,6 @@ namespace WaterSystem.Data
 
             var standardHeight = EditorGUIUtility.singleLineHeight;
             var standardLine = standardHeight + EditorGUIUtility.standardVerticalSpacing;
-            //Reorderable list stuff////////////////////////////////////////////////
             waveList = new ReorderableList(serializedObject, serializedObject.FindProperty("_waves"), true, true, true, true);
 
 			//Single entry GUI
@@ -65,8 +62,6 @@ namespace WaterSystem.Data
                 else
                 {// Omni-Directional
                     EditorGUIUtility.wideMode = true;
-                    //var perWidth = EditorGUIUtility.labelWidth;
-                    //EditorGUIUtility.labelWidth = 20f;
                     var waveOrig = element.FindPropertyRelative("origin");
                     waveOrig.vector2Value = EditorGUI.Vector2Field(dirRect, "Point of Origin", waveOrig.vector2Value);
                     if(GUI.Button(buttonRect, "Project Origin from Scene Camera"))
@@ -228,12 +223,6 @@ namespace WaterSystem.Data
                         EditorGUI.indentLevel -= 1;
                         // Re-orderable list with wave details
                         waveList.DoLayoutList();
-                /// Type - Directional / Omi-directional
-                //// Amplitude - slider 0.05 - 30
-                //// Wavelength - slider 1 - 200
-                ////// Direction(facing) - slider -180-180 && face scene camera direction(if scene view)
-                // OR
-                ////// Origin(point of origin) - Vector input && origin at camera aim
             }
             break;
             }
