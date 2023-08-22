@@ -16,12 +16,7 @@ MonoBehaviour:
   m_Data:
     m_SerializedData: []
   m_GUID: ae971df5c2b654af9a3670c7d1a6fc27
-  m_SerializeEntries:
-  - m_GUID: dd76f393b89c7c043a07be4d99495f5d
-    m_Address: Assets/Objects/environment/Clouds/Shader Graphs_Clouds.mat
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
+  m_SerializeEntries: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 46fc3d082b08c4dacacae72d7016c235, type: 2}
   m_SchemaSet:
