@@ -6,9 +6,7 @@ namespace OceanSystem
 	public class OceanResources : ScriptableObject 
 	{
 		public Texture2D defaultFoamRamp;
-        public Texture2D defaultFoamMap;
-        public Texture2D defaultSurfaceMap;
-        public Material defaultSeaMaterial;
+		public Material defaultSeaMaterial;
         public Mesh[] defaultWaterMeshes;
 	}
 }

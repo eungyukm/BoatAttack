@@ -11,7 +11,7 @@ namespace OceanSystem
     [ExecuteAlways]
     public class Ocean : MonoBehaviour
     {
-        // Singleton
+        #region Singleton
         private static Ocean _instance;
         public static Ocean Instance
         {
@@ -22,9 +22,10 @@ namespace OceanSystem
                 return _instance;
             }
         }
+        #endregion 
+
         // Script references
         private PlanarReflections _planarReflections;
-
         private bool _useComputeBuffer;
         public bool computeOverride;
 
@@ -46,13 +47,10 @@ namespace OceanSystem
         private static readonly int CameraRoll = Shader.PropertyToID("_CameraRoll");
         private static readonly int InvViewProjection = Shader.PropertyToID("_InvViewProjection");
         private static readonly int WaterDepthMap = Shader.PropertyToID("_WaterDepthMap");
-        private static readonly int FoamMap = Shader.PropertyToID("_FoamMap");
-        private static readonly int SurfaceMap = Shader.PropertyToID("_SurfaceMap");
         private static readonly int WaveHeight = Shader.PropertyToID("_WaveHeight");
         private static readonly int MaxWaveHeight = Shader.PropertyToID("_MaxWaveHeight");
         private static readonly int MaxDepth = Shader.PropertyToID("_MaxDepth");
         private static readonly int WaveCount = Shader.PropertyToID("_WaveCount");
-        private static readonly int CubemapTexture = Shader.PropertyToID("_CubemapTexture");
         private static readonly int WaveDataBuffer = Shader.PropertyToID("_WaveDataBuffer");
         private static readonly int WaveData = Shader.PropertyToID("waveData");
         private static readonly int AbsorptionScatteringRamp = Shader.PropertyToID("_AbsorptionScatteringRamp");
@@ -163,7 +161,8 @@ namespace OceanSystem
             if(Application.platform != RuntimePlatform.WebGLPlayer) // TODO - bug with Opengl depth
                 CaptureDepthMap();
         }
-
+        
+        // TODO : 추후 Gerstner_Wave 끄고 키고 가능하도록 설정
         public void FragWaveNormals(bool toggle)
         {
             var mat = GetComponent<Renderer>().sharedMaterial;
@@ -176,10 +175,6 @@ namespace OceanSystem
         private void SetWaves()
         {
             SetupWaves(surfaceData._customWaves);
-
-            // set default resources
-            Shader.SetGlobalTexture(FoamMap, resources.defaultFoamMap);
-            Shader.SetGlobalTexture(SurfaceMap, resources.defaultSurfaceMap);
 
             _maxWaveHeight = 0f;
             foreach (var w in _waves)
@@ -194,8 +189,6 @@ namespace OceanSystem
             Shader.SetGlobalFloat(MaxWaveHeight, _maxWaveHeight);
             Shader.SetGlobalFloat(MaxDepth, surfaceData._waterMaxVisibility);
             
-            Shader.DisableKeyword("_REFLECTION_CUBEMAP");
-            Shader.DisableKeyword("_REFLECTION_PROBES");
             Shader.EnableKeyword("_REFLECTION_PLANARREFLECTION");
 
             Shader.SetGlobalInt(WaveCount, _waves.Length);

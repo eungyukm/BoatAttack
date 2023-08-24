@@ -5,6 +5,9 @@
 		_BumpScale("Detail Wave Amount", Range(0, 2)) = 0.2
 		_DitherPattern ("Dithering Pattern", 2D) = "bump" {}
 		[Toggle(_STATIC_SHADER)] _Static ("Static", Float) = 0
+		_SurfaceMap ("SurfaceMap", 2D) = "2d" {}
+		_FoamMap ("FoamMap", 2D) = "2d" {}
+//		_WaveCount ("WaveCount", Range(2,6)) = 4
 		[KeywordEnum(Off, SSS, Refraction, Reflection, Normal, Fresnel, WaterEffects, Foam, WaterDepth)] _Debug ("Debug mode", Float) = 0
 	}
 	SubShader

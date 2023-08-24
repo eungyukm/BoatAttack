@@ -85,11 +85,8 @@
                 float4 screenPos = input.screenpos / input.screenpos.w;
                 
                 real depth = SampleSceneDepth(screenPos.xy);
-                
                 Light MainLight = GetMainLight();
-                
                 float4 WorldPos = ReconstructWorldPos(screenPos.xy, depth).xyzz;
-                
                 float3 LightUVs = mul(WorldPos, _MainLightDir).xyz;
 
 #if defined(_STATIC_SHADER)

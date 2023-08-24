@@ -17,7 +17,6 @@ SAMPLER(sampler_ScreenTextures_linear_clamp);
 #if defined(_REFLECTION_PLANARREFLECTION)
 TEXTURE2D(_PlanarReflectionTexture);
 #endif
-// TEXTURE2D(_WaterFXMap);
 TEXTURE2D(_CameraDepthTexture);
 TEXTURE2D(_CameraOpaqueTexture); SAMPLER(sampler_CameraOpaqueTexture_linear_clamp);
 
