@@ -98,7 +98,7 @@ namespace OceanSystem
             newPos.x = quantizeValue * (int) (newPos.x / quantizeValue);
             newPos.z = quantizeValue * (int) (newPos.z / quantizeValue);
 
-            var matrix = Matrix4x4.TRS(newPos + transform.position, Quaternion.identity, transform.localScale); // transform.localToWorldMatrix;
+            var matrix = Matrix4x4.TRS(newPos + transform.position, Quaternion.identity, transform.localScale);
 
             foreach (var mesh in resources.defaultWaterMeshes)
             {
@@ -263,7 +263,7 @@ namespace OceanSystem
             if(_depthCam == null)
             {
                 var go =
-                    new GameObject("depthCamera") {hideFlags = HideFlags.HideAndDontSave}; //create the cameraObject
+                    new GameObject("depthCamera") {hideFlags = HideFlags.HideAndDontSave};
                 _depthCam = go.AddComponent<Camera>();
             }
 
@@ -274,12 +274,12 @@ namespace OceanSystem
 
             var t = _depthCam.transform;
             var depthExtra = 4.0f;
-            t.position = Vector3.up * (transform.position.y + depthExtra);//center the camera on this water plane height
-            t.up = Vector3.forward;//face the camera down
+            t.position = Vector3.up * (transform.position.y + depthExtra);
+            t.up = Vector3.forward;
 
             _depthCam.enabled = true;
             _depthCam.orthographic = true;
-            _depthCam.orthographicSize = 250;//hardcoded = 1k area - TODO
+            _depthCam.orthographicSize = 250;
             _depthCam.nearClipPlane =0.01f;
             _depthCam.farClipPlane = surfaceData._waterMaxVisibility + depthExtra;
             _depthCam.allowHDR = false;

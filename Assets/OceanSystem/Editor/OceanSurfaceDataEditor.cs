@@ -19,29 +19,26 @@ namespace OceanSystem.Data
             var standardHeight = EditorGUIUtility.singleLineHeight;
             var standardLine = standardHeight + EditorGUIUtility.standardVerticalSpacing;
             waveList = new ReorderableList(serializedObject, serializedObject.FindProperty("_waves"), true, true, true, true);
-
-			//Single entry GUI
             waveList.drawElementCallback = (Rect rect, int index, bool isActive, bool isFocused) =>
 			{
                 var element = waveList.serializedProperty.GetArrayElementAtIndex(index);
                 rect.y += 2;
-
-                // Swell height
+                
                 var preWidth = EditorGUIUtility.labelWidth;
                 EditorGUIUtility.labelWidth = rect.width * 0.2f;
                 Rect ampRect = new Rect(rect.x, rect.y + standardLine, rect.width * 0.5f, standardHeight);
                 var waveAmp = element.FindPropertyRelative("amplitude");
                 waveAmp.floatValue = EditorGUI.Slider(ampRect, "Swell Height", waveAmp.floatValue, 0.1f, 30f);
-                // Wavelength
+                
                 Rect lengthRect = new Rect(rect.x + ampRect.width, rect.y + standardLine, rect.width * 0.5f, standardHeight);
                 var waveLen = element.FindPropertyRelative("wavelength");
                 waveLen.floatValue = EditorGUI.Slider(lengthRect, "Wavelength", waveLen.floatValue, 1.0f, 200f);
                 EditorGUIUtility.labelWidth = preWidth;
-                // Directional controls
+                
                 Rect dirToggleRect = new Rect(rect.x, rect.y + 2 + standardLine * 2, rect.width * 0.5f, standardHeight);
                 Rect omniToggleRect = new Rect(rect.x + rect.width * 0.5f, dirToggleRect.y, rect.width * 0.5f, standardHeight);
                 Rect containerRect = new Rect(rect.x, dirToggleRect.y + 1, rect.width, standardLine * 3.2f);
-                // Direction/origin
+                
                 var waveType = element.FindPropertyRelative("onmiDir");
                 var wTypeBool = (int)waveType.floatValue == 1 ? true : false;
                 GUI.Box(containerRect, "", EditorStyles.helpBox );
@@ -51,7 +48,7 @@ namespace OceanSystem.Data
 
                 Rect dirRect = new Rect(rect.x + 4, dirToggleRect.y + standardLine, rect.width - 8, standardHeight);
                 Rect buttonRect = new Rect(rect.x + 4, dirRect.y + standardLine + 2, rect.width - 8, standardHeight);
-                // Directional
+                
                 if(!wTypeBool)
                 {
                     var waveDir = element.FindPropertyRelative("direction");
@@ -68,14 +65,12 @@ namespace OceanSystem.Data
                         waveOrig.vector2Value = CameraRelativeOrigin(waveOrig.vector2Value);
                 }
             };
-
-            // Check can remove to make sure at least one wave remains
+            
             waveList.onCanRemoveCallback = (ReorderableList l) =>
             {
                 return l.count > 1;
             };
-
-            // Check on remove to give a warning incase removing by accident
+            
             waveList.onRemoveCallback = (ReorderableList l) =>
             {
                 if (EditorUtility.DisplayDialog("Warning!", "Are you sure you want to delete the wave?", "Yes", "No"))
@@ -83,7 +78,7 @@ namespace OceanSystem.Data
                     ReorderableList.defaultBehaviours.DoRemoveButton(l);
                 }
             };
-            // When adding, check if under 10, if so add a new random wave
+            
             waveList.onAddCallback = (ReorderableList l) =>
             {
                 var index = l.serializedProperty.arraySize;
@@ -101,12 +96,12 @@ namespace OceanSystem.Data
                     EditorUtility.DisplayDialog("Warning!", "You have reached the limit of 10 waves for this Water.", "Close");
                 }
             };
-            //Draw header
+            
             waveList.drawHeaderCallback = (Rect rect) =>
             {
                 EditorGUI.LabelField(rect, "Wave List");
             };
-            //Do height of list entry
+            
             waveList.elementHeightCallback = (index) =>
             {
                 var elementHeight = standardLine * 6f;
@@ -117,17 +112,13 @@ namespace OceanSystem.Data
         public override void OnInspectorGUI()
         {
             serializedObject.Update();
-            
             EditorGUILayout.LabelField("Visual Settings", EditorStyles.boldLabel);
             EditorGUI.indentLevel += 1;
-            // Max visibility - slider 3-300
             var maxDepth = serializedObject.FindProperty("_waterMaxVisibility");
             EditorGUILayout.Slider(maxDepth, 3, 300, new GUIContent("Maximum Visibility", maxDepthTT));
-            // Colouring settings
             DoSmallHeader("Coloring Controls");
             var absorpRamp = serializedObject.FindProperty("_absorptionRamp");
             EditorGUILayout.PropertyField(absorpRamp, new GUIContent("Absorption Color", absorpRampTT), true, null);
-            // Scatter Ramp
             var scatterRamp = serializedObject.FindProperty("_scatterRamp");
             EditorGUILayout.PropertyField(scatterRamp, new GUIContent("Scattering Color", scatterRampTT), true, null);
             // Foam Ramps
@@ -154,19 +145,6 @@ namespace OceanSystem.Data
 					EditorGUILayout.EndHorizontal();
 				}
 				break;
-			case 2: //// Simple ////
-				{
-					EditorGUILayout.BeginHorizontal();
-					DoInlineLabel("Foam Profiles", foam3curvesTT, 50f);
-					var liteFoam = foamSettings.FindPropertyRelative("liteFoam");
-					liteFoam.animationCurveValue = EditorGUILayout.CurveField(liteFoam.animationCurveValue, new Color(0.5f, 0.75f, 1f, 1f), new Rect(Vector2.zero, Vector2.one));
-					var mediumFoam = foamSettings.FindPropertyRelative("mediumFoam");
-					mediumFoam.animationCurveValue = EditorGUILayout.CurveField(mediumFoam.animationCurveValue, new Color(0f, 0.5f, 1f, 1f), new Rect(Vector2.zero, Vector2.one));
-					var denseFoam = foamSettings.FindPropertyRelative("denseFoam");
-					denseFoam.animationCurveValue = EditorGUILayout.CurveField(denseFoam.animationCurveValue, Color.blue, new Rect(Vector2.zero, Vector2.one));
-					EditorGUILayout.EndHorizontal();
-				}
-				break;
             }
 
             EditorGUI.indentLevel -= 1;
@@ -174,8 +152,6 @@ namespace OceanSystem.Data
             EditorGUI.indentLevel += 1;
 
             EditorGUILayout.Space();
-
-
 
             var basicSettings = serializedObject.FindProperty("_basicWaveSettings");
             
@@ -248,7 +224,7 @@ namespace OceanSystem.Data
             return g;
         }
 
-        Gradient DefaultScatterGrad() // Preset for scattering
+        Gradient DefaultScatterGrad()
         {
             Gradient g = new Gradient();
             GradientColorKey[] gck = new GradientColorKey[4];
@@ -300,9 +276,6 @@ namespace OceanSystem.Data
                 return original;
             }
         }
-
-        static string[] wavesTypeOptions = new string[] { "Automatic", "Customized" };
-
         static string[] foamTypeOptions = new string[3] { "Automatic", "Simple Curve", "Density Curves" };
 
 
