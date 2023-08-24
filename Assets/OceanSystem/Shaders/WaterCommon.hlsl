@@ -7,7 +7,7 @@
 #include "OceanInput.hlsl"
 #include "CommonUtilities.hlsl"
 #include "GerstnerWaves.hlsl"
-#include "WaterLighting.hlsl"
+#include "OceanLighting.hlsl"
 
 ///////////////////////////////////////////////////////////////////////////////
 //                  				Structs		                             //
