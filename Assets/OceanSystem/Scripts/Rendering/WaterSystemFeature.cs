@@ -2,7 +2,7 @@
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 
-namespace WaterSystem
+namespace OceanSystem
 {
     public class WaterSystemFeature : ScriptableRendererFeature
     {

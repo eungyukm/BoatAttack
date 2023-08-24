@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b17284ebf5e80436eb6089f8c7459dab, type: 3}
   m_Name: WaterSurfaceData
   m_EditorClassIdentifier: 
-  _waterMaxVisibility: 16.2
+  _waterMaxVisibility: 40.2
   _absorptionRamp:
     serializedVersion: 2
     key0: {r: 1, g: 1, b: 1, a: 1}
@@ -24,7 +24,7 @@ MonoBehaviour:
     key6: {r: 0, g: 0, b: 0, a: 0}
     key7: {r: 0, g: 0, b: 0, a: 0}
     ctime0: 0
-    ctime1: 6746
+    ctime1: 9542
     ctime2: 20817
     ctime3: 43581
     ctime4: 65535
@@ -40,7 +40,7 @@ MonoBehaviour:
     atime6: 0
     atime7: 0
     m_Mode: 0
-    m_ColorSpace: -1
+    m_ColorSpace: 0
     m_NumColorKeys: 5
     m_NumAlphaKeys: 2
   _scatterRamp:
@@ -119,7 +119,7 @@ MonoBehaviour:
   _customWaves: 0
   randomSeed: 891
   _basicWaveSettings:
-    numWaves: 6
+    numWaves: 5
     amplitude: 0.6
     direction: -176
     wavelength: 8
@@ -138,8 +138,8 @@ MonoBehaviour:
         inWeight: 0
         outWeight: 0.15316528
       - serializedVersion: 3
-        time: 0.6247411
-        value: 0.39698213
+        time: 0.5789138
+        value: 0.45827073
         inSlope: 1.2551872
         outSlope: 1.2551872
         tangentMode: 0

@@ -2,7 +2,7 @@
 using UnityEditor;
 using UnityEngine.Rendering.Universal;
 
-namespace WaterSystem
+namespace OceanSystem
 {
 	[CustomPropertyDrawer(typeof(PlanarReflections.PlanarReflectionSettings))]
 	public class PlanarSettingsDrawer : PropertyDrawer
