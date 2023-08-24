@@ -1,4 +1,4 @@
-﻿Shader "BoatAttack/Water"
+﻿Shader "RM2/Ocean"
 {
 	Properties
 	{
@@ -38,7 +38,7 @@
             #pragma multi_compile_instancing
             #pragma multi_compile_fog
 			
-			#include "WaterCommon.hlsl"
+			#include "OceanCommon.hlsl"
 
 			//non-tess
 			#pragma vertex WaterVertex
