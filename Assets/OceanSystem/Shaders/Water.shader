@@ -41,7 +41,7 @@
 			#include "OceanCommon.hlsl"
 
 			//non-tess
-			#pragma vertex WaterVertex
+			#pragma vertex OceanVertex
 			#pragma fragment WaterFragment
 
 			ENDHLSL

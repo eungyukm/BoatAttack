@@ -12,24 +12,26 @@
 ///////////////////////////////////////////////////////////////////////////////
 //                  				Structs		                             //
 ///////////////////////////////////////////////////////////////////////////////
-
-struct WaterVertexInput // vert struct
+struct OceanVertexInput // vert struct
 {
 	float4	vertex 					: POSITION;		// vertex positions
 	float2	texcoord 				: TEXCOORD0;	// local UVs
 	UNITY_VERTEX_INPUT_INSTANCE_ID
 };
 
-struct WaterVertexOutput // fragment struct
+struct OceanVertexOutput // fragment struct
 {
-	float4	uv 						: TEXCOORD0;	// Geometric UVs stored in xy, and world(pre-waves) in zw
-	float3	posWS					: TEXCOORD1;	// world position of the vertices
-	half3 	normal 					: NORMAL;		// vert normals
-	float3 	viewDir 				: TEXCOORD2;	// view direction
-	float3	preWaveSP 				: TEXCOORD3;	// screen position of the verticies before wave distortion
-	half2 	fogFactorNoise          : TEXCOORD4;	// x: fogFactor, y: noise
-	float4	additionalData			: TEXCOORD5;	// x = distance to surface, y = distance to surface, z = normalized wave height, w = horizontal movement
-	half4	shadowCoord				: TEXCOORD6;	// for ssshadows
+	// uv의 xy는 모델링의 uv, 월드좌표는 zw
+	float4	uv 						: TEXCOORD0;
+	float3	posWS					: TEXCOORD1;
+	half3 	normal 					: NORMAL;	
+	float3 	viewDir 				: TEXCOORD2;
+	float3	preWaveSP 				: TEXCOORD3;
+	// x: fogFactor, y: noise
+	half2 	fogFactorNoise          : TEXCOORD4;
+	// x : 표면까지 거리, y : 표면까지 거리, z 정규화된 파도 높이, w = 수평 이동
+	float4	additionalData			: TEXCOORD5;
+	half4	shadowCoord				: TEXCOORD6;
 
 	float4	clipPos					: SV_POSITION;
 	UNITY_VERTEX_INPUT_INSTANCE_ID
@@ -39,7 +41,6 @@ struct WaterVertexOutput // fragment struct
 ///////////////////////////////////////////////////////////////////////////////
 //          	   	       Water debug functions                             //
 ///////////////////////////////////////////////////////////////////////////////
-
 half3 DebugWaterFX(half3 input, half4 waterFX, half screenUV)
 {
     input = lerp(input, half3(waterFX.y, 1, waterFX.z), saturate(floor(screenUV + 0.7)));
@@ -53,7 +54,6 @@ half3 DebugWaterFX(half3 input, half4 waterFX, half screenUV)
 ///////////////////////////////////////////////////////////////////////////////
 //          	   	      Water shading functions                            //
 ///////////////////////////////////////////////////////////////////////////////
-
 half3 Scattering(half depth)
 {
 	return SAMPLE_TEXTURE2D(_AbsorptionScatteringRamp, sampler_AbsorptionScatteringRamp, half2(depth, 0.375h)).rgb;
@@ -68,9 +68,6 @@ float2 AdjustedDepth(half2 uvs, half4 additionalData)
 {
 	float rawD = SAMPLE_DEPTH_TEXTURE(_CameraDepthTexture, sampler_ScreenTextures_linear_clamp, uvs);
 	float d = LinearEyeDepth(rawD, _ZBufferParams);
-
-	// TODO: Changing the usage of UNITY_REVERSED_Z this way to fix testing, but I'm not sure the original code is correct anyway.
-	// In OpenGL, rawD should already have be remmapped before converting depth to linear eye depth.
 #if UNITY_REVERSED_Z
 	float offset = 0;
 #else
@@ -112,14 +109,16 @@ half4 AdditionalData(float3 postionWS, WaveStruct wave)
 {
     half4 data = half4(0.0, 0.0, 0.0, 0.0);
     float3 viewPos = TransformWorldToView(postionWS);
-	data.x = length(viewPos / viewPos.z);// distance to surface
-    data.y = length(GetCameraPositionWS().xyz - postionWS); // local position in camera space
-	data.z = wave.position.y / _MaxWaveHeight * 0.5 + 0.5; // encode the normalized wave height into additional data
+	data.x = length(viewPos / viewPos.z);
+	// 파도의 높이 표현
+    data.y = length(GetCameraPositionWS().xyz - postionWS);
+	data.z = wave.position.y / _MaxWaveHeight * 0.5 + 0.5;
+	// 파도의 길이 표현
 	data.w = wave.position.x + wave.position.z;
 	return data;
 }
 
-WaterVertexOutput WaveVertexOperations(WaterVertexOutput input)
+OceanVertexOutput WaveVertexOperations(OceanVertexOutput input)
 {
 #ifdef _STATIC_SHADER
 	float time = 0;
@@ -129,19 +128,16 @@ WaterVertexOutput WaveVertexOperations(WaterVertexOutput input)
 
     input.normal = float3(0, 1, 0);
 	input.fogFactorNoise.y = ((noise((input.posWS.xz * 0.5) + time) + noise((input.posWS.xz * 1) + time)) * 0.25 - 0.5) + 1;
-
-	// Detail UVs
+	
     input.uv.zw = input.posWS.xz * 0.1h + time * 0.05h + (input.fogFactorNoise.y * 0.1);
     input.uv.xy = input.posWS.xz * 0.4h - time.xx * 0.1h + (input.fogFactorNoise.y * 0.2);
 
 	half4 screenUV = ComputeScreenPos(TransformWorldToHClip(input.posWS));
 	screenUV.xyz /= screenUV.w;
-
-    // shallows mask
+	
     half waterDepth = WaterTextureDepth(input.posWS);
     input.posWS.y += pow(saturate((-waterDepth + 1.5) * 0.4), 2);
-
-	//Gerstner here
+	
 	WaveStruct wave;
 	SampleWaves(input.posWS, saturate((waterDepth * 0.1 + 0.05)), wave);
 	input.normal = wave.normal;
@@ -155,38 +151,35 @@ WaterVertexOutput WaveVertexOperations(WaterVertexOutput input)
 	half4 waterFX = SAMPLE_TEXTURE2D_LOD(_WaterFXMap, sampler_ScreenTextures_linear_clamp, screenUV.xy, 0);
 	input.posWS.y += waterFX.w * 2 - 1;
 
-	// After waves
+	// 파도 연산 이후
 	input.clipPos = TransformWorldToHClip(input.posWS);
 	input.shadowCoord = ComputeScreenPos(input.clipPos);
     input.viewDir = SafeNormalize(_WorldSpaceCameraPos - input.posWS);
 
-    // Fog
+    // fog 효과
 	input.fogFactorNoise.x = ComputeFogFactor(input.clipPos.z);
-	input.preWaveSP = screenUV.xyz; // pre-displaced screenUVs
+	input.preWaveSP = screenUV.xyz;
 
-	// Additional data
+	// 파도 데이터 표현
 	input.additionalData = AdditionalData(input.posWS, wave);
 
-	// distance blend
+	// 거리에 따른 normal 연산
 	half distanceBlend = saturate(abs(length((_WorldSpaceCameraPos.xz - input.posWS.xz) * 0.005)) - 0.25);
 	input.normal = lerp(input.normal, half3(0, 1, 0), distanceBlend);
 
 	return input;
 }
 
-///////////////////////////////////////////////////////////////////////////////
-//               	   Vertex and Fragment functions                         //
-///////////////////////////////////////////////////////////////////////////////
 
-// Vertex: Used for Standard non-tessellated water
-WaterVertexOutput WaterVertex(WaterVertexInput v)
+//
+OceanVertexOutput OceanVertex(OceanVertexInput v)
 {
-    WaterVertexOutput o;// = (WaterVertexOutput)0;
+    OceanVertexOutput o;
 	UNITY_SETUP_INSTANCE_ID(v);
     UNITY_TRANSFER_INSTANCE_ID(v, o);
 	UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
-    o.uv.xy = v.texcoord; // geo uvs
+    o.uv.xy = v.texcoord;
     o.posWS = TransformObjectToWorld(v.vertex.xyz);
 
 	o = WaveVertexOperations(o);
@@ -194,7 +187,7 @@ WaterVertexOutput WaterVertex(WaterVertexInput v)
 }
 
 // Fragment for water
-half4 WaterFragment(WaterVertexOutput IN) : SV_Target
+half4 WaterFragment(OceanVertexOutput IN) : SV_Target
 {
 	UNITY_SETUP_INSTANCE_ID(IN);
 	half3 screenUV = IN.shadowCoord.xyz / IN.shadowCoord.w;//screen UVs
