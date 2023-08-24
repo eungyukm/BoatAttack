@@ -13,7 +13,6 @@ int _DebugPass;
 half4 _VeraslWater_DepthCamParams;
 float4x4 _InvViewProjection;
 
-// Screen Effects textures
 SAMPLER(sampler_ScreenTextures_linear_clamp);
 #if defined(_REFLECTION_PLANARREFLECTION)
 TEXTURE2D(_PlanarReflectionTexture);
@@ -24,7 +23,6 @@ TEXTURE2D(_CameraOpaqueTexture); SAMPLER(sampler_CameraOpaqueTexture_linear_clam
 
 TEXTURE2D(_WaterDepthMap); SAMPLER(sampler_WaterDepthMap_linear_clamp);
 
-// Surface textures
 TEXTURE2D(_AbsorptionScatteringRamp); SAMPLER(sampler_AbsorptionScatteringRamp);
 TEXTURE2D(_SurfaceMap); SAMPLER(sampler_SurfaceMap);
 TEXTURE2D(_FoamMap); SAMPLER(sampler_FoamMap);
@@ -37,5 +35,4 @@ struct WaterSurfaceData
     half3 normal;
     half  foam;
 };
-
-#endif // WATER_INPUT_INCLUDED
+#endif

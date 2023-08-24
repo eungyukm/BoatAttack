@@ -4,7 +4,7 @@
 #define SHADOWS_SCREEN 0
 
 #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
-#include "WaterInput.hlsl"
+#include "OceanInput.hlsl"
 #include "CommonUtilities.hlsl"
 #include "GerstnerWaves.hlsl"
 #include "WaterLighting.hlsl"
