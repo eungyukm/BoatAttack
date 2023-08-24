@@ -10,8 +10,6 @@ namespace OceanSystem.Data
         public float _waterMaxVisibility = 40.0f;
         public Gradient _absorptionRamp;
         public Gradient _scatterRamp;
-        public List<Wave> _waves = new List<Wave>();
-        public bool _customWaves = false;
         public int randomSeed = 3234;
         public BasicWaves _basicWaveSettings = new BasicWaves(1.5f, 45.0f, 5.0f);
         public FoamSettings _foamSettings = new FoamSettings();
@@ -58,7 +56,7 @@ namespace OceanSystem.Data
     [System.Serializable]
     public class FoamSettings
     {
-        public int foamType; // 0=default, 1=simple, 3=custom
+        public int foamType; // 0=default, 1=simple
         public AnimationCurve basicFoam;
         public AnimationCurve liteFoam;
         public AnimationCurve mediumFoam;

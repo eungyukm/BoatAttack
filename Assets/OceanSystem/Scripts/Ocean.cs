@@ -11,20 +11,6 @@ namespace OceanSystem
     [ExecuteAlways]
     public class Ocean : MonoBehaviour
     {
-        #region Singleton
-        private static Ocean _instance;
-        public static Ocean Instance
-        {
-            get
-            {
-                if (_instance == null)
-                    _instance = (Ocean)FindObjectOfType(typeof(Ocean));
-                return _instance;
-            }
-        }
-        #endregion 
-
-        // Script references
         private PlanarReflections _planarReflections;
         private bool _useComputeBuffer;
         public bool computeOverride;
@@ -56,7 +42,7 @@ namespace OceanSystem
         private static readonly int AbsorptionScatteringRamp = Shader.PropertyToID("_AbsorptionScatteringRamp");
         private static readonly int DepthCamZParams = Shader.PropertyToID("_VeraslWater_DepthCamParams");
 
-        private void OnEnable()
+        private void Start()
         {
             if (!computeOverride)
                 _useComputeBuffer = SystemInfo.supportsComputeShaders &&
@@ -69,11 +55,11 @@ namespace OceanSystem
 
             if(resources == null)
             {
-                resources = Resources.Load("WaterResources") as OceanResources;
+                resources = Resources.Load("OceanResources") as OceanResources;
             }
         }
 
-        private void OnDisable() {
+        private void OnDestroy() {
             Cleanup();
         }
 
@@ -161,20 +147,10 @@ namespace OceanSystem
             if(Application.platform != RuntimePlatform.WebGLPlayer) // TODO - bug with Opengl depth
                 CaptureDepthMap();
         }
-        
-        // TODO : 추후 Gerstner_Wave 끄고 키고 가능하도록 설정
-        public void FragWaveNormals(bool toggle)
-        {
-            var mat = GetComponent<Renderer>().sharedMaterial;
-            if (toggle)
-                mat.EnableKeyword("GERSTNER_WAVES");
-            else
-                mat.DisableKeyword("GERSTNER_WAVES");
-        }
 
         private void SetWaves()
         {
-            SetupWaves(surfaceData._customWaves);
+            SetupWaves();
 
             _maxWaveHeight = 0f;
             foreach (var w in _waves)
@@ -220,37 +196,29 @@ namespace OceanSystem
             return waveData;
         }
 
-        private void SetupWaves(bool custom)
+        private void SetupWaves()
         {
-            if(!custom)
+            var backupSeed = Random.state;
+            Random.InitState(surfaceData.randomSeed);
+            var basicWaves = surfaceData._basicWaveSettings;
+            var a = basicWaves.amplitude;
+            var d = basicWaves.direction;
+            var l = basicWaves.wavelength;
+            var numWave = basicWaves.numWaves;
+            _waves = new Wave[numWave];
+            
+            var r = 1f / numWave;
+            
+            for (var i = 0; i < numWave; i++)
             {
-                //create basic waves based off basic wave settings
-                var backupSeed = Random.state;
-                Random.InitState(surfaceData.randomSeed);
-                var basicWaves = surfaceData._basicWaveSettings;
-                var a = basicWaves.amplitude;
-                var d = basicWaves.direction;
-                var l = basicWaves.wavelength;
-                var numWave = basicWaves.numWaves;
-                _waves = new Wave[numWave];
-
-                var r = 1f / numWave;
-
-                for (var i = 0; i < numWave; i++)
-                {
-                    var p = Mathf.Lerp(0.5f, 1.5f, i * r);
-                    var amp = a * p * Random.Range(0.8f, 1.2f);
-                    var dir = d + Random.Range(-90f, 90f);
-                    var len = l * p * Random.Range(0.6f, 1.4f);
-                    _waves[i] = new Wave(amp, dir, len, Vector2.zero, false);
-                    Random.InitState(surfaceData.randomSeed + i + 1);
-                }
-                Random.state = backupSeed;
+                var p = Mathf.Lerp(0.5f, 1.5f, i * r);
+                var amp = a * p * Random.Range(0.8f, 1.2f);
+                var dir = d + Random.Range(-90f, 90f);
+                var len = l * p * Random.Range(0.6f, 1.4f);
+                _waves[i] = new Wave(amp, dir, len, Vector2.zero, false);
+                Random.InitState(surfaceData.randomSeed + i + 1);
             }
-            else
-            {
-                _waves = surfaceData._waves.ToArray();
-            }
+            Random.state = backupSeed;
         }
 
         private void GenerateColorRamp()
@@ -279,9 +247,6 @@ namespace OceanSystem
                         break;
                     case 1: // simple
                         cols[i + 256] = defaultFoamRamp.GetPixelBilinear(surfaceData._foamSettings.basicFoam.Evaluate(i / 128f) , 0.5f);
-                        break;
-                    case 2: // custom
-                        cols[i + 256] = Color.black;
                         break;
                 }
             }

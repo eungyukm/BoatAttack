@@ -73,50 +73,6 @@ MonoBehaviour:
     m_ColorSpace: -1
     m_NumColorKeys: 4
     m_NumAlphaKeys: 2
-  _waves:
-  - amplitude: 1
-    direction: -6.03
-    wavelength: 10
-    origin:
-      x: -146.4
-      y: 326.2
-    onmiDir: 1
-  - amplitude: 0.9
-    direction: 166
-    wavelength: 8
-    origin:
-      x: 0
-      y: 0
-    onmiDir: 0
-  - amplitude: 0.5
-    direction: 6.532788
-    wavelength: 7.455916
-    origin:
-      x: -63.14
-      y: 931.6
-    onmiDir: 1
-  - amplitude: 0.7
-    direction: 4.051435
-    wavelength: 4.6626315
-    origin:
-      x: -72.74
-      y: -16.01
-    onmiDir: 1
-  - amplitude: 0.5
-    direction: 180
-    wavelength: 2.6733496
-    origin:
-      x: -50.43
-      y: 0
-    onmiDir: 0
-  - amplitude: 0.5
-    direction: -151
-    wavelength: 2.9848163
-    origin:
-      x: 0
-      y: 0
-    onmiDir: 0
-  _customWaves: 0
   randomSeed: 891
   _basicWaveSettings:
     numWaves: 4
