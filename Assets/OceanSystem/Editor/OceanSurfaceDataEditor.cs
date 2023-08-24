@@ -115,37 +115,21 @@ namespace OceanSystem.Data
             EditorGUILayout.LabelField("Visual Settings", EditorStyles.boldLabel);
             EditorGUI.indentLevel += 1;
             var maxDepth = serializedObject.FindProperty("_waterMaxVisibility");
-            EditorGUILayout.Slider(maxDepth, 3, 300, new GUIContent("Maximum Visibility", maxDepthTT));
+            EditorGUILayout.Slider(maxDepth, 3, 300, new GUIContent("Maximum Visibility"));
             DoSmallHeader("Coloring Controls");
             var absorpRamp = serializedObject.FindProperty("_absorptionRamp");
-            EditorGUILayout.PropertyField(absorpRamp, new GUIContent("Absorption Color", absorpRampTT), true, null);
+            EditorGUILayout.PropertyField(absorpRamp, new GUIContent("Absorption Color"), true, null);
             var scatterRamp = serializedObject.FindProperty("_scatterRamp");
-            EditorGUILayout.PropertyField(scatterRamp, new GUIContent("Scattering Color", scatterRampTT), true, null);
+            EditorGUILayout.PropertyField(scatterRamp, new GUIContent("Scattering Color"), true, null);
             // Foam Ramps
             DoSmallHeader("Surface Foam");
             var foamSettings = serializedObject.FindProperty("_foamSettings");
-            var foamType = foamSettings.FindPropertyRelative("foamType");
-            foamType.intValue = GUILayout.Toolbar(foamType.intValue, foamTypeOptions);
-
             EditorGUILayout.Space();
-
-            switch (foamType.intValue)
-            {
-			case 0: //// Auto ////
-				{
-					EditorGUILayout.HelpBox("Automatic will distribute the foam suitable for an average swell", MessageType.Info);
-				}
-				break;
-			case 1: //// Simple ////
-				{
-					EditorGUILayout.BeginHorizontal();
-					DoInlineLabel("Foam Profile", foamCurveTT, 50f);
-					var basicFoam = foamSettings.FindPropertyRelative("basicFoam");
-					basicFoam.animationCurveValue = EditorGUILayout.CurveField(basicFoam.animationCurveValue, Color.white, new Rect(Vector2.zero, Vector2.one));
-					EditorGUILayout.EndHorizontal();
-				}
-				break;
-            }
+            
+            EditorGUILayout.BeginHorizontal();
+            var basicFoam = foamSettings.FindPropertyRelative("basicFoam");
+            basicFoam.animationCurveValue = EditorGUILayout.CurveField(basicFoam.animationCurveValue, Color.white, new Rect(Vector2.zero, Vector2.one));
+            EditorGUILayout.EndHorizontal();
 
             EditorGUI.indentLevel -= 1;
             EditorGUILayout.LabelField("Wave Settings", EditorStyles.boldLabel);
@@ -154,22 +138,22 @@ namespace OceanSystem.Data
             EditorGUILayout.Space();
 
             var basicSettings = serializedObject.FindProperty("_basicWaveSettings");
-            
             var autoCount = basicSettings.FindPropertyRelative("numWaves");
-            EditorGUILayout.IntSlider(autoCount, 1, 10, new GUIContent("Wave Count", waveCountTT), null);
+            EditorGUILayout.IntSlider(autoCount, 1, 10, new GUIContent("Wave Count"), null);
             var avgHeight = basicSettings.FindPropertyRelative("amplitude");
-            EditorGUILayout.Slider(avgHeight, 0.1f, 30.0f, new GUIContent("Avg Swell Height", avgHeightTT), null);
+            EditorGUILayout.Slider(avgHeight, 0.1f, 30.0f, new GUIContent("Avg Swell Height"), null);
             var avgWavelength = basicSettings.FindPropertyRelative("wavelength");
-            EditorGUILayout.Slider(avgWavelength, 1.0f, 200.0f, new GUIContent("Avg Wavelength", avgWavelengthTT), null);
+            EditorGUILayout.Slider(avgWavelength, 1.0f, 200.0f, new GUIContent("Avg Wavelength"), null);
             EditorGUILayout.BeginHorizontal();
+            
             var windDir = basicSettings.FindPropertyRelative("direction");
-            EditorGUILayout.Slider(windDir, -180.0f, 180.0f, new GUIContent("Wind Direction", windDirTT), null);
-            if(GUILayout.Button(new GUIContent("Align to scene camera", alignButtonTT)))
+            EditorGUILayout.Slider(windDir, -180.0f, 180.0f, new GUIContent("Wind Direction"), null);
+            if(GUILayout.Button(new GUIContent("Align to scene camera")))
                 windDir.floatValue = CameraRelativeDirection();
             EditorGUILayout.EndHorizontal();
             EditorGUILayout.BeginHorizontal();
             var randSeed = serializedObject.FindProperty("randomSeed");
-            randSeed.intValue = EditorGUILayout.IntField(new GUIContent("Random Seed", randSeedTT), randSeed.intValue);
+            randSeed.intValue = EditorGUILayout.IntField(new GUIContent("Random Seed"), randSeed.intValue);
             if (GUILayout.Button("Randomize Waves"))
             {
                 randSeed.intValue = System.DateTime.Now.Millisecond * 100 - System.DateTime.Now.Millisecond;
@@ -276,20 +260,5 @@ namespace OceanSystem.Data
                 return original;
             }
         }
-        static string[] foamTypeOptions = new string[3] { "Automatic", "Simple Curve", "Density Curves" };
-
-
-        ////TOOLTIPS////
-        private string maxDepthTT = "This controls the max depth of the waters transparency/visiblility, the absorption and scattering gradients map to this depth. Units:Meters";
-        private string absorpRampTT = "This gradient controls the color of the water as it gets deeper, darkening the surfaces under the water as they get deeper.";
-        private string scatterRampTT = "This gradient controls the 'scattering' of the water from shallow to deep, lighting the water as there becomes more of it.";
-        private string waveCountTT = "Number of waves the automatic setup creates, if aiming for mobile set to 6 or less";
-        private string avgHeightTT = "The average height of the waves. Units:Meters";
-        private string avgWavelengthTT = "The average wavelength of the waves. Units:Meters";
-        private string windDirTT = "The general wind direction, this is in degrees from Z+";
-        private string alignButtonTT = "This aligns the wave direction to the current scene view camera facing direction";
-        private string foamCurveTT = "This curve control the foam propagation. X is wave height and Y is foam opacity";
-        private string foam3curvesTT = "These three curves control the Lite, Medium and Dense foam propagation. X is wave height and Y is foam opacity";
-        private string randSeedTT = "This seed controls the automatic wave generation";
     }
 }

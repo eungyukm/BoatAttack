@@ -240,15 +240,7 @@ namespace OceanSystem
             }
             for (var i = 0; i < 128; i++)
             {
-                switch(surfaceData._foamSettings.foamType)
-                {
-                    case 0: // default
-                        cols[i + 256] = defaultFoamRamp.GetPixelBilinear(i / 128f , 0.5f);
-                        break;
-                    case 1: // simple
-                        cols[i + 256] = defaultFoamRamp.GetPixelBilinear(surfaceData._foamSettings.basicFoam.Evaluate(i / 128f) , 0.5f);
-                        break;
-                }
+                cols[i + 256] = defaultFoamRamp.GetPixelBilinear(surfaceData._foamSettings.basicFoam.Evaluate(i / 128f) , 0.5f);
             }
             _rampTexture.SetPixels(cols);
             _rampTexture.Apply();

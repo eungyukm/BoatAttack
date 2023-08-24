@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Unity.Mathematics;
+﻿using Unity.Mathematics;
 using UnityEngine;
 
 namespace OceanSystem.Data
@@ -56,25 +55,12 @@ namespace OceanSystem.Data
     [System.Serializable]
     public class FoamSettings
     {
-        public int foamType; // 0=default, 1=simple
         public AnimationCurve basicFoam;
-        public AnimationCurve liteFoam;
-        public AnimationCurve mediumFoam;
-        public AnimationCurve denseFoam;
 
         // Foam curves
         public FoamSettings()
         {
-            foamType = 0;
             basicFoam = new AnimationCurve(new Keyframe[2]{new Keyframe(0.25f, 0f),
-                                                                    new Keyframe(1f, 1f)});
-            liteFoam = new AnimationCurve(new Keyframe[3]{new Keyframe(0.2f, 0f),
-                                                                    new Keyframe(0.4f, 1f),
-                                                                    new Keyframe(0.7f, 0f)});
-            mediumFoam = new AnimationCurve(new Keyframe[3]{new Keyframe(0.4f, 0f),
-                                                                    new Keyframe(0.7f, 1f),
-                                                                    new Keyframe(1f, 0f)});
-            denseFoam = new AnimationCurve(new Keyframe[2]{new Keyframe(0.7f, 0f),
                                                                     new Keyframe(1f, 1f)});
         }
     }
