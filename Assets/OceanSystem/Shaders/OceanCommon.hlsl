@@ -171,7 +171,7 @@ OceanVertexOutput WaveVertexOperations(OceanVertexOutput input)
 }
 
 
-//
+// 버텍스 연산
 OceanVertexOutput OceanVertex(OceanVertexInput v)
 {
     OceanVertexOutput o;
@@ -187,19 +187,15 @@ OceanVertexOutput OceanVertex(OceanVertexInput v)
 }
 
 // Fragment for water
-half4 WaterFragment(OceanVertexOutput IN) : SV_Target
+half4 OceanFragment(OceanVertexOutput IN) : SV_Target
 {
 	UNITY_SETUP_INSTANCE_ID(IN);
-	half3 screenUV = IN.shadowCoord.xyz / IN.shadowCoord.w;//screen UVs
-
+	half3 screenUV = IN.shadowCoord.xyz / IN.shadowCoord.w;
 	half4 waterFX = SAMPLE_TEXTURE2D(_WaterFXMap, sampler_ScreenTextures_linear_clamp, IN.preWaveSP.xy);
-
-	// Depth
-	float3 depth = WaterDepth(IN.posWS, IN.additionalData, screenUV.xy);// TODO - hardcoded shore depth UVs
-	//return half4(0, frac(ceil(depth.y) / _MaxDepth), frac(IN.posWS.y), 1);
+	// 깊이감 연산
+	float3 depth = WaterDepth(IN.posWS, IN.additionalData, screenUV.xy);
 	half depthMulti = 1 / _MaxDepth;
-
-    // Detail waves
+	
 	half2 detailBump1 = SAMPLE_TEXTURE2D(_SurfaceMap, sampler_SurfaceMap, IN.uv.zw).xy * 2 - 1;
 	half2 detailBump2 = SAMPLE_TEXTURE2D(_SurfaceMap, sampler_SurfaceMap, IN.uv.xy).xy * 2 - 1;
 	half2 detailBump = (detailBump1 + detailBump2 * 0.5) * saturate(depth.x * 0.25 + 0.25);
@@ -210,27 +206,26 @@ half4 WaterFragment(OceanVertexOutput IN) : SV_Target
 
     // Distortion
 	half2 distortion = DistortionUVs(depth.x, IN.normal);
-	distortion = screenUV.xy + distortion;// * clamp(depth.x, 0, 5);
+	distortion = screenUV.xy + distortion;
 	float d = depth.x;
 	depth.xz = AdjustedDepth(distortion, IN.additionalData);
 	distortion = depth.x < 0 ? screenUV.xy : distortion;
 	depth.x = depth.x < 0 ? d : depth.x;
 
-    // Fresnel
+    // 프레넬 구간
 	half fresnelTerm = CalculateFresnelTerm(IN.normal, IN.viewDir.xyz);
-	//return fresnelTerm.xxxx;
 
-	// Lighting
+	// 라이트 연산
 	Light mainLight = GetMainLight(TransformWorldToShadowCoord(IN.posWS));
     half shadow = SoftShadows(screenUV, IN.posWS, IN.viewDir.xyz, depth.x);
     half3 GI = SampleSH(IN.normal);
 
-    // SSS
+    // SSS(Scattering, Subsurface Scattering) 바다의 산란되는 현상
     half3 directLighting = dot(mainLight.direction, half3(0, 1, 0)) * mainLight.color;
     directLighting += saturate(pow(dot(IN.viewDir, -mainLight.direction) * IN.additionalData.z, 3)) * 5 * mainLight.color;
     half3 sss = directLighting * shadow + GI;
 
-	// Foam
+	// 물거품
 	half3 foamMap = SAMPLE_TEXTURE2D(_FoamMap, sampler_FoamMap,  IN.uv.zw).rgb; //r=thick, g=medium, b=light
 	half depthEdge = saturate(depth.x * 20);
 	half waveFoam = saturate(IN.additionalData.z - 0.75 * 0.5); // wave tips
@@ -239,7 +234,8 @@ half4 WaterFragment(OceanVertexOutput IN) : SV_Target
 	half foamBlendMask = max(max(waveFoam, edgeFoam), waterFX.r * 2);
 	half3 foamBlend = SAMPLE_TEXTURE2D(_AbsorptionScatteringRamp, sampler_AbsorptionScatteringRamp, half2(foamBlendMask, 0.66)).rgb;
 	half foamMask = saturate(length(foamMap * foamBlend) * 1.5 - 0.1);
-	// Foam lighting
+	
+	// 물거품 + 라이팅
 	half3 foam = foamMask.xxx * (mainLight.shadowAttenuation * mainLight.color + GI);
 
     BRDFData brdfData;
@@ -257,15 +253,10 @@ half4 WaterFragment(OceanVertexOutput IN) : SV_Target
 #endif
 
     sss *= Scattering(depth.x * depthMulti);
-
-	// Reflections
+	
 	half3 reflection = SampleReflections(IN.normal, IN.viewDir.xyz, screenUV.xy, 0.0);
-
-	// Refraction
 	half3 refraction = Refraction(distortion, depth.x, depthMulti);
-
-	// Do compositing
-	half3 comp = lerp(lerp(refraction, reflection, fresnelTerm) + sss + spec, foam, foamMask); //lerp(refraction, color + reflection + foam, 1-saturate(1-depth.x * 25));
+	half3 comp = lerp(lerp(refraction, reflection, fresnelTerm) + sss + spec, foam, foamMask);
 
 	// Fog
     float fogFactor = IN.fogFactorNoise.x;
@@ -291,4 +282,4 @@ half4 WaterFragment(OceanVertexOutput IN) : SV_Target
 #endif
 }
 
-#endif // WATER_COMMON_INCLUDED
+#endif

@@ -42,7 +42,7 @@
 
 			//non-tess
 			#pragma vertex OceanVertex
-			#pragma fragment WaterFragment
+			#pragma fragment OceanFragment
 
 			ENDHLSL
 		}
