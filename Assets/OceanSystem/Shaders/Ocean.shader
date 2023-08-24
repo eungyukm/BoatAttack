@@ -7,7 +7,16 @@
 		[Toggle(_STATIC_SHADER)] _Static ("Static", Float) = 0
 		_SurfaceMap ("SurfaceMap", 2D) = "white" {}
 		_FoamMap ("FoamMap", 2D) = "white" {}
-//		_WaveCount ("WaveCount", Range(2,6)) = 4
+		
+		// 파도
+		_WaveCount ("WaveCount", Range(2,6)) = 4
+		_AvgSwellHeight("AvgSwehllHeight", Range(0.1, 3.0)) = 0.4
+		_AvgWavelength("AvgWavelength", Range(1, 120)) = 8
+		_WindDirection("WindDirection", Range(-180, 180)) = -176 
+		
+		// 랜덤 seed
+		_randomSeed("randomSeed", int) = 3123
+		_MaxWaveHeight ("MaxWaveHeight", Range(0.1, 15.0))= 0.4
 		[KeywordEnum(Off, SSS, Refraction, Reflection, Normal, Fresnel, WaterEffects, Foam, WaterDepth)] _Debug ("Debug mode", Float) = 0
 	}
 	SubShader
@@ -24,7 +33,6 @@
 			#pragma prefer_hlslcc gles
 			/////////////////SHADER FEATURES//////////////////
 			#pragma shader_feature _REFLECTION_PLANARREFLECTION
-			#pragma multi_compile _ USE_STRUCTURED_BUFFER
 			#pragma multi_compile _ _STATIC_SHADER
 			#pragma shader_feature _DEBUG_OFF _DEBUG_SSS _DEBUG_REFRACTION _DEBUG_REFLECTION _DEBUG_NORMAL _DEBUG_FRESNEL _DEBUG_FOAM _DEBUG_WATERDEPTH
 			

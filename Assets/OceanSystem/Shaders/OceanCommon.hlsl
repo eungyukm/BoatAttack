@@ -126,6 +126,7 @@ OceanVertexOutput WaveVertexOperations(OceanVertexOutput input)
     input.posWS.y += pow(saturate((-waterDepth + 1.5) * 0.4), 2);
 	
 	WaveStruct wave;
+	// SetupWaves();
 	SampleWaves(input.posWS, saturate((waterDepth * 0.1 + 0.05)), wave);
 	input.normal = wave.normal;
     input.posWS += wave.position;

@@ -4,7 +4,6 @@ using UnityEngine.Rendering;
 using UnityEngine.Experimental.Rendering;
 using UnityEngine.Rendering.Universal;
 using Object = UnityEngine.Object;
-using Random = UnityEngine.Random;
 
 namespace OceanSystem
 {
@@ -12,19 +11,12 @@ namespace OceanSystem
     public class Ocean : MonoBehaviour
     {
         private PlanarReflections _planarReflections;
-        private bool _useComputeBuffer;
-        public bool computeOverride;
 
         [SerializeField] RenderTexture _depthTex;
         public Texture bakedDepthTex;
         private Camera _depthCam;
         private Texture2D _rampTexture;
-        [SerializeField]
-        public Wave[] _waves;
-        [SerializeField]
-        private ComputeBuffer waveBuffer;
-        private float _maxWaveHeight;
-        private float _waveHeight;
+        
         [SerializeField]
         public OceanSurfaceData surfaceData;
         [SerializeField]
@@ -33,23 +25,12 @@ namespace OceanSystem
         private static readonly int CameraRoll = Shader.PropertyToID("_CameraRoll");
         private static readonly int InvViewProjection = Shader.PropertyToID("_InvViewProjection");
         private static readonly int WaterDepthMap = Shader.PropertyToID("_WaterDepthMap");
-        private static readonly int WaveHeight = Shader.PropertyToID("_WaveHeight");
-        private static readonly int MaxWaveHeight = Shader.PropertyToID("_MaxWaveHeight");
         private static readonly int MaxDepth = Shader.PropertyToID("_MaxDepth");
-        private static readonly int WaveCount = Shader.PropertyToID("_WaveCount");
-        private static readonly int WaveDataBuffer = Shader.PropertyToID("_WaveDataBuffer");
-        private static readonly int WaveData = Shader.PropertyToID("waveData");
         private static readonly int AbsorptionScatteringRamp = Shader.PropertyToID("_AbsorptionScatteringRamp");
         private static readonly int DepthCamZParams = Shader.PropertyToID("_VeraslWater_DepthCamParams");
 
         private void Start()
         {
-            if (!computeOverride)
-                _useComputeBuffer = SystemInfo.supportsComputeShaders &&
-                                   Application.platform != RuntimePlatform.WebGLPlayer &&
-                                   Application.platform != RuntimePlatform.Android;
-            else
-                _useComputeBuffer = false;
             Init();
             RenderPipelineManager.beginCameraRendering += BeginCameraRendering;
 
@@ -75,8 +56,6 @@ namespace OceanSystem
             {
                 SafeDestroy(_depthTex);
             }
-
-            waveBuffer?.Dispose();
         }
 
         private void BeginCameraRendering(ScriptableRenderContext src, Camera cam)
@@ -87,8 +66,7 @@ namespace OceanSystem
             Shader.SetGlobalFloat(CameraRoll, roll);
             Shader.SetGlobalMatrix(InvViewProjection,
                 (GL.GetGPUProjectionMatrix(cam.projectionMatrix, false) * cam.worldToCameraMatrix).inverse);
-
-            // Water matrix
+            
             const float quantizeValue = 6.25f;
             const float forwards = 10f;
             const float yOffset = -0.25f;
@@ -142,85 +120,21 @@ namespace OceanSystem
 
             if(resources == null)
             {
-                resources = Resources.Load("WaterResources") as OceanResources;
+                resources = Resources.Load("OceanResources") as OceanResources;
             }
-            if(Application.platform != RuntimePlatform.WebGLPlayer) // TODO - bug with Opengl depth
+
+            if (Application.platform != RuntimePlatform.WebGLPlayer)
+            {
                 CaptureDepthMap();
+            }
         }
 
         private void SetWaves()
         {
-            SetupWaves();
-
-            _maxWaveHeight = 0f;
-            foreach (var w in _waves)
-            {
-                _maxWaveHeight += w.amplitude;
-            }
-            _maxWaveHeight /= _waves.Length;
-
-            _waveHeight = transform.position.y;
-
-            Shader.SetGlobalFloat(WaveHeight, _waveHeight);
-            Shader.SetGlobalFloat(MaxWaveHeight, _maxWaveHeight);
             Shader.SetGlobalFloat(MaxDepth, surfaceData._waterMaxVisibility);
             
             Shader.EnableKeyword("_REFLECTION_PLANARREFLECTION");
-
-            Shader.SetGlobalInt(WaveCount, _waves.Length);
-
-            //GPU side
-            if (_useComputeBuffer)
-            {
-                Shader.EnableKeyword("USE_STRUCTURED_BUFFER");
-                waveBuffer?.Dispose();
-                waveBuffer = new ComputeBuffer(10, (sizeof(float) * 6));
-                waveBuffer.SetData(_waves);
-                Shader.SetGlobalBuffer(WaveDataBuffer, waveBuffer);
-            }
-            else
-            {
-                Shader.DisableKeyword("USE_STRUCTURED_BUFFER");
-                Shader.SetGlobalVectorArray(WaveData, GetWaveData());
-            }
         }
-
-        private Vector4[] GetWaveData()
-        {
-            var waveData = new Vector4[20];
-            for (var i = 0; i < _waves.Length; i++)
-            {
-                waveData[i] = new Vector4(_waves[i].amplitude, _waves[i].direction, _waves[i].wavelength, _waves[i].onmiDir);
-                waveData[i+10] = new Vector4(_waves[i].origin.x, _waves[i].origin.y, 0, 0);
-            }
-            return waveData;
-        }
-
-        private void SetupWaves()
-        {
-            var backupSeed = Random.state;
-            Random.InitState(surfaceData.randomSeed);
-            var basicWaves = surfaceData._basicWaveSettings;
-            var a = basicWaves.amplitude;
-            var d = basicWaves.direction;
-            var l = basicWaves.wavelength;
-            var numWave = basicWaves.numWaves;
-            _waves = new Wave[numWave];
-            
-            var r = 1f / numWave;
-            
-            for (var i = 0; i < numWave; i++)
-            {
-                var p = Mathf.Lerp(0.5f, 1.5f, i * r);
-                var amp = a * p * Random.Range(0.8f, 1.2f);
-                var dir = d + Random.Range(-90f, 90f);
-                var len = l * p * Random.Range(0.6f, 1.4f);
-                _waves[i] = new Wave(amp, dir, len, Vector2.zero, false);
-                Random.InitState(surfaceData.randomSeed + i + 1);
-            }
-            Random.state = backupSeed;
-        }
-
         private void GenerateColorRamp()
         {
             if(_rampTexture == null)
@@ -251,7 +165,6 @@ namespace OceanSystem
         [ContextMenu("Capture Depth")]
         public void CaptureDepthMap()
         {
-            //Generate the camera
             if(_depthCam == null)
             {
                 var go =

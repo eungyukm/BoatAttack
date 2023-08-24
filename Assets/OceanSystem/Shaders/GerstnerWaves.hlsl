@@ -1,7 +1,11 @@
 ﻿#ifndef GERSTNER_WAVES_INCLUDED
 #define GERSTNER_WAVES_INCLUDED
 
-uniform uint 	_WaveCount;
+uniform uint _WaveCount;
+half _AvgSwellHeight;
+half _AvgWavelength;
+half _WindDirection;
+half _randomSeed;
 
 struct Wave
 {
@@ -14,12 +18,6 @@ struct Wave
 	float2 origin;
 	float omni;
 };
-
-#if defined(USE_STRUCTURED_BUFFER)
-StructuredBuffer<Wave> _WaveDataBuffer;
-#else
-half4 waveData[20];
-#endif
 
 struct WaveStruct
 {
@@ -68,6 +66,12 @@ WaveStruct GerstnerWave(half2 pos, float waveCountMulti, half amplitude, half di
 	return waveOut;
 }
 
+// Seed에 따른 랜덤 생성
+float Random(float seed)
+{
+	return frac(sin(seed * 12.9898 + 78.233) * 43758.5453);
+}
+
 inline void SampleWaves(float3 position, half opacity, out WaveStruct waveOut)
 {
 	half2 pos = position.xz;
@@ -76,19 +80,22 @@ inline void SampleWaves(float3 position, half opacity, out WaveStruct waveOut)
 	half waveCountMulti = 1.0 / _WaveCount;
 	half3 opacityMask = saturate(half3(3, 3, 1) * opacity);
 
+	float a = _AvgSwellHeight;
+	float d = _WindDirection;
+	float l = _AvgWavelength;
+	float r = 1.0f / _WaveCount;
+
 	UNITY_LOOP
 	for(uint i = 0; i < _WaveCount; i++)
 	{
-#if defined(USE_STRUCTURED_BUFFER)
-		Wave w = _WaveDataBuffer[i];
-#else
 		Wave w;
-		w.amplitude = waveData[i].x;
-		w.direction = waveData[i].y;
-		w.wavelength = waveData[i].z;
-		w.omni = waveData[i].w;
-		w.origin = waveData[i + 10].xy;
-#endif
+		float p = lerp(0.5f, 1.5f, i * r);
+		w.amplitude = a * p * lerp(0.8f, 1.2f, Random(_randomSeed + i));
+		w.direction = d + lerp(-90.0f, 90.0f, Random(_randomSeed + i + 0.1));
+		w.wavelength = l * p * lerp(0.6f, 1.4f, Random(_randomSeed + i + 0.2));
+		w.omni = 0;
+		w.origin = float2(0,0);
+		
 		WaveStruct wave = GerstnerWave(pos,
 								waveCountMulti,
 								w.amplitude,
