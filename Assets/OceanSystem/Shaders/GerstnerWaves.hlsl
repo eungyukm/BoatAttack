@@ -1,12 +1,15 @@
 ﻿#ifndef GERSTNER_WAVES_INCLUDED
 #define GERSTNER_WAVES_INCLUDED
 
-uniform uint 	_WaveCount; // how many waves, set via the water component
+uniform uint 	_WaveCount;
 
 struct Wave
 {
+	// 진푹
 	float amplitude;
+	// 방향
 	float direction;
+	// 길이
 	float wavelength;
 	float2 origin;
 	float omni;
@@ -15,7 +18,7 @@ struct Wave
 #if defined(USE_STRUCTURED_BUFFER)
 StructuredBuffer<Wave> _WaveDataBuffer;
 #else
-half4 waveData[20]; // 0-9 amplitude, direction, wavelength, omni, 10-19 origin.xy
+half4 waveData[20];
 #endif
 
 struct WaveStruct
@@ -32,37 +35,33 @@ WaveStruct GerstnerWave(half2 pos, float waveCountMulti, half amplitude, half di
 #else
 	float time = _Time.y;
 #endif
-
-	////////////////////////////////wave value calculations//////////////////////////
-	half3 wave = 0; // wave vector
-	half w = 6.28318 / wavelength; // 2pi over wavelength(hardcoded)
-	half wSpeed = sqrt(9.8 * w); // frequency of the wave based off wavelength
-	half peak = 1.5; // peak value, 1 is the sharpest peaks
+	half3 wave = 0;
+	half w = 6.28318 / wavelength;
+	half wSpeed = sqrt(9.8 * w);
+	half peak = 1.5;
 	half qi = peak / (amplitude * w * _WaveCount);
 
-	direction = radians(direction); // convert the incoming degrees to radians, for directional waves
+	direction = radians(direction);
 	half2 dirWaveInput = half2(sin(direction), cos(direction)) * (1 - omni);
 	half2 omniWaveInput = (pos - omniPos) * omni;
 
-	half2 windDir = normalize(dirWaveInput + omniWaveInput); // calculate wind direction
-	half dir = dot(windDir, pos - (omniPos * omni)); // calculate a gradient along the wind direction
+	// 바람의 방향 계산
+	half2 windDir = normalize(dirWaveInput + omniWaveInput);
+	half dir = dot(windDir, pos - (omniPos * omni));
 
-	////////////////////////////position output calculations/////////////////////////
-	half calc = dir * w + -time * wSpeed; // the wave calculation
-	half cosCalc = cos(calc); // cosine version(used for horizontal undulation)
-	half sinCalc = sin(calc); // sin version(used for vertical undulation)
-
-	// calculate the offsets for the current point
+	// 방향 * wave 길이 * speed
+	half calc = dir * w + -time * wSpeed;
+	half cosCalc = cos(calc);
+	half sinCalc = sin(calc);
+	
 	wave.xz = qi * amplitude * windDir.xy * cosCalc;
-	wave.y = ((sinCalc * amplitude)) * waveCountMulti;// the height is divided by the number of waves
-
-	////////////////////////////normal output calculations/////////////////////////
+	wave.y = ((sinCalc * amplitude)) * waveCountMulti;
+	
 	half wa = w * amplitude;
-	// normal vector
+	// 노말 계산
 	half3 n = half3(-(windDir.xy * wa * cosCalc),
 					1-(qi * wa * sinCalc));
-
-	////////////////////////////////assign to output///////////////////////////////
+	
 	waveOut.position = wave * saturate(amplitude * 10000);
 	waveOut.normal = (n.xzy * waveCountMulti);
 
@@ -96,13 +95,12 @@ inline void SampleWaves(float3 position, half opacity, out WaveStruct waveOut)
 								w.direction,
 								w.wavelength,
 								w.omni,
-								w.origin); // calculate the wave
+								w.origin);
 
-		waveOut.position += wave.position; // add the position
-		waveOut.normal += wave.normal; // add the normal
+		waveOut.position += wave.position;
+		waveOut.normal += wave.normal;
 	}
 	waveOut.position *= opacityMask;
 	waveOut.normal *= half3(opacity, 1, opacity);
 }
-
-#endif // GERSTNER_WAVES_INCLUDED
+#endif
