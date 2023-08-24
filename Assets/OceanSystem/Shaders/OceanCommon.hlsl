@@ -39,19 +39,6 @@ struct OceanVertexOutput // fragment struct
 };
 
 ///////////////////////////////////////////////////////////////////////////////
-//          	   	       Water debug functions                             //
-///////////////////////////////////////////////////////////////////////////////
-half3 DebugWaterFX(half3 input, half4 waterFX, half screenUV)
-{
-    input = lerp(input, half3(waterFX.y, 1, waterFX.z), saturate(floor(screenUV + 0.7)));
-    input = lerp(input, waterFX.xxx, saturate(floor(screenUV + 0.5)));
-    half3 disp = lerp(0, half3(1, 0, 0), saturate((waterFX.www - 0.5) * 4));
-    disp += lerp(0, half3(0, 0, 1), saturate(((1-waterFX.www) - 0.5) * 4));
-    input = lerp(input, disp, saturate(floor(screenUV + 0.3)));
-    return input;
-}
-
-///////////////////////////////////////////////////////////////////////////////
 //          	   	      Water shading functions                            //
 ///////////////////////////////////////////////////////////////////////////////
 half3 Scattering(half depth)
@@ -146,11 +133,6 @@ OceanVertexOutput WaveVertexOperations(OceanVertexOutput input)
 #ifdef SHADER_API_PS4
 	input.posWS.y -= 0.5;
 #endif
-
-    // Dynamic displacement
-	half4 waterFX = SAMPLE_TEXTURE2D_LOD(_WaterFXMap, sampler_ScreenTextures_linear_clamp, screenUV.xy, 0);
-	input.posWS.y += waterFX.w * 2 - 1;
-
 	// 파도 연산 이후
 	input.clipPos = TransformWorldToHClip(input.posWS);
 	input.shadowCoord = ComputeScreenPos(input.clipPos);
@@ -191,7 +173,6 @@ half4 OceanFragment(OceanVertexOutput IN) : SV_Target
 {
 	UNITY_SETUP_INSTANCE_ID(IN);
 	half3 screenUV = IN.shadowCoord.xyz / IN.shadowCoord.w;
-	half4 waterFX = SAMPLE_TEXTURE2D(_WaterFXMap, sampler_ScreenTextures_linear_clamp, IN.preWaveSP.xy);
 	// 깊이감 연산
 	float3 depth = WaterDepth(IN.posWS, IN.additionalData, screenUV.xy);
 	half depthMulti = 1 / _MaxDepth;
@@ -201,7 +182,6 @@ half4 OceanFragment(OceanVertexOutput IN) : SV_Target
 	half2 detailBump = (detailBump1 + detailBump2 * 0.5) * saturate(depth.x * 0.25 + 0.25);
 
 	IN.normal += half3(detailBump.x, 0, detailBump.y) * _BumpScale;
-	IN.normal += half3(1-waterFX.y, 0.5h, 1-waterFX.z) - 0.5;
 	IN.normal = normalize(IN.normal);
 
     // Distortion
@@ -231,7 +211,7 @@ half4 OceanFragment(OceanVertexOutput IN) : SV_Target
 	half waveFoam = saturate(IN.additionalData.z - 0.75 * 0.5); // wave tips
 	half depthAdd = saturate(1 - depth.x * 4) * 0.5;
 	half edgeFoam = saturate((1 - min(depth.x, depth.y) * 0.5 - 0.25) + depthAdd) * depthEdge;
-	half foamBlendMask = max(max(waveFoam, edgeFoam), waterFX.r * 2);
+	half foamBlendMask = max(waveFoam, edgeFoam);
 	half3 foamBlend = SAMPLE_TEXTURE2D(_AbsorptionScatteringRamp, sampler_AbsorptionScatteringRamp, half2(foamBlendMask, 0.66)).rgb;
 	half foamMask = saturate(length(foamMap * foamBlend) * 1.5 - 0.1);
 	
@@ -273,8 +253,6 @@ half4 OceanFragment(OceanVertexOutput IN) : SV_Target
     return half4(IN.normal.x * 0.5 + 0.5, 0, IN.normal.z * 0.5 + 0.5, 1);
 #elif defined(_DEBUG_FRESNEL)
     return half4(fresnelTerm.xxx, 1);
-#elif defined(_DEBUG_WATEREFFECTS)
-    return half4(waterFX);
 #elif defined(_DEBUG_WATERDEPTH)
     return half4(frac(depth), 1);
 #else
