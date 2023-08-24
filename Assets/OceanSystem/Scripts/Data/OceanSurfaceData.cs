@@ -1,5 +1,4 @@
-﻿using Unity.Mathematics;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace OceanSystem.Data
 {
@@ -18,8 +17,7 @@ namespace OceanSystem.Data
     public class FoamSettings
     {
         public AnimationCurve basicFoam;
-
-        // Foam curves
+        
         public FoamSettings()
         {
             basicFoam = new AnimationCurve(new Keyframe[2]{new Keyframe(0.25f, 0f),

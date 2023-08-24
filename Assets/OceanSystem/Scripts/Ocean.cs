@@ -132,9 +132,9 @@ namespace OceanSystem
         private void SetWaves()
         {
             Shader.SetGlobalFloat(MaxDepth, surfaceData._waterMaxVisibility);
-            
             Shader.EnableKeyword("_REFLECTION_PLANARREFLECTION");
         }
+        
         private void GenerateColorRamp()
         {
             if(_rampTexture == null)
@@ -142,7 +142,6 @@ namespace OceanSystem
             _rampTexture.wrapMode = TextureWrapMode.Clamp;
 
             var defaultFoamRamp = resources.defaultFoamRamp;
-
             var cols = new Color[512];
             for (var i = 0; i < 128; i++)
             {
@@ -160,8 +159,7 @@ namespace OceanSystem
             _rampTexture.Apply();
             Shader.SetGlobalTexture(AbsorptionScatteringRamp, _rampTexture);
         }
-
-
+        
         [ContextMenu("Capture Depth")]
         public void CaptureDepthMap()
         {
