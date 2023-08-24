@@ -1,5 +1,4 @@
-﻿using System;
-using OceanSystem.Data;
+﻿using OceanSystem.Data;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Experimental.Rendering;

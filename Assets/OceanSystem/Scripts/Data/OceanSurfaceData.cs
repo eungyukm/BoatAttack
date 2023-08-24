@@ -4,10 +4,7 @@ using UnityEngine;
 
 namespace OceanSystem.Data
 {
-    /// <summary>
-    /// This scriptable object contains setting for how the water looks visually
-    /// </summary>
-    [System.Serializable][CreateAssetMenu(fileName = "WaterSurfaceData", menuName = "WaterSystem/Surface Data", order = 0)]
+    [System.Serializable][CreateAssetMenu(fileName = "OceanSurfaceData", menuName = "OceanSystem/Surface Data", order = 0)]
     public class OceanSurfaceData : ScriptableObject
     {
         public float _waterMaxVisibility = 40.0f;
@@ -25,11 +22,11 @@ namespace OceanSystem.Data
     [System.Serializable]
     public struct Wave
     {
-        public float amplitude; // height of the wave in units(m)
-        public float direction; // direction the wave travels in degrees from Z+
-        public float wavelength; // distance between crest>crest
-        public float2 origin; // Omi directional point of origin
-        public float onmiDir; // Is omni?
+        public float amplitude;
+        public float direction;
+        public float wavelength;
+        public float2 origin;
+        public float onmiDir;
 
         public Wave(float amp, float dir, float length, float2 org, bool omni)
         {
