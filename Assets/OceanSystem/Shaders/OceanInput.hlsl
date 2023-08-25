@@ -28,10 +28,12 @@ TEXTURE2D(_FoamMap); SAMPLER(sampler_FoamMap);
 TEXTURE2D(_DitherPattern); SAMPLER(sampler_DitherPattern);
 
 // 커스틱
+#if defined(_CAUSTICS_SHADER)
 TEXTURE2D(_CausticsMap); SAMPLER(sampler_CausticsMap);
 float _CausticsSize;
 float _CausticsSpeed;
 float _CausticDistance;
+#endif
 
 struct WaterSurfaceData
 {

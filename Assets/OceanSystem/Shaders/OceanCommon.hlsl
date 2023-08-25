@@ -255,7 +255,8 @@ half4 OceanFragment(OceanVertexOutput IN) : SV_Target
 	
 	half3 reflection = SampleReflections(IN.normal, IN.viewDir.xyz, screenUV.xy, 0.0);
 	half3 refraction = Refraction(distortion, depth.x, depthMulti);
-
+	half3 comp = half3(0,0,0);
+	#if defined(_CAUSTICS_SHADER)
 	// 커스틱
 	float time = _Time.y * 0.1;
 	// 커스틱 Blend
@@ -267,15 +268,21 @@ half4 OceanFragment(OceanVertexOutput IN) : SV_Target
 	
 	float CausticsDriver = (causticBlendA.z * causticBlendB.z) * 10 + causticBlendA.z + causticBlendB.z;
 	half3 Caustics = CausticsDriver * half3(causticBlendA.w * 0.5, causticBlendB.w * 0.75, causticBlendB.x) * mainLight.color;
-	half3 comp = lerp(lerp(refraction, reflection, fresnelTerm) + sss + spec + Caustics, foam, foamMask);
-
+	comp = lerp(lerp(refraction, reflection, fresnelTerm) + sss + spec + Caustics, foam, foamMask);
+	#else
+	comp = lerp(lerp(refraction, reflection, fresnelTerm) + sss + spec, foam, foamMask);
+	#endif
+	
 	// Fog
     float fogFactor = IN.fogFactorNoise.x;
     comp = MixFog(comp, fogFactor);
 	
 #if defined(_DEBUG_CAUSTICS)
-	return half4(Caustics, 1); 
-	return half4(causticsBlendMask, 0, 0, 1);
+	#if defined(_CAUSTICS_SHADER)
+	return half4(Caustics, 1);
+	#else
+	return half4(0, 0, 0, 0);
+	#endif
 #elif defined(_DEBUG_FOAM)
     return half4(foamMask.xxx, 1);
 #elif defined(_DEBUG_SSS)

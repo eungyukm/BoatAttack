@@ -15,6 +15,7 @@
 		_WindDirection("WindDirection", Range(-180, 180)) = -176
 		
 		// 커스틱
+		[Toggle(_CAUSTICS_SHADER)] _Caustics ("Caustics Toggle", Float) = 0
 		_CausticsMap("CausticsMap", 2D) = "White" {}
 		_CausticsSize("CausticsSize", Range(0.1, 6)) = 0.2
 		_CausticsSpeed("CausticsSpeed", Range(-3, 3)) = 0.01
@@ -48,6 +49,8 @@
             #pragma multi_compile _ _ADDITIONAL_LIGHTS_VERTEX _ADDITIONAL_LIGHTS
             #pragma multi_compile _ _ADDITIONAL_LIGHT_SHADOWS
             #pragma multi_compile _ _SHADOWS_SOFT
+
+			#pragma multi_compile _ _CAUSTICS_SHADER
 			
             // GPU Instancing
             #pragma multi_compile_instancing
