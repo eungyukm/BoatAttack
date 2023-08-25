@@ -40,7 +40,6 @@ half SoftShadows(float3 screenUV, float3 positionWS, half3 viewDir, half depth)
 half3 SampleReflections(half3 normalWS, half3 viewDirectionWS, half2 screenUV, half roughness)
 {
     half3 reflection = 0;
-    half2 refOffset = 0;
     
     #if _REFLECTION_PLANARREFLECTION
     float2 p11_22 = float2(unity_CameraInvProjection._11, unity_CameraInvProjection._22) * 10;

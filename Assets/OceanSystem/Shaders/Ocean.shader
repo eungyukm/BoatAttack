@@ -16,8 +16,8 @@
 		
 		// 랜덤 seed
 		_randomSeed("randomSeed", int) = 3123
-		_MaxWaveHeight ("MaxWaveHeight", Range(0.1, 15.0))= 0.4
-		[KeywordEnum(Off, SSS, Refraction, Reflection, Normal, Fresnel, WaterEffects, Foam, WaterDepth)] _Debug ("Debug mode", Float) = 0
+		_MaxWaveHeight ("MaxWaveHeight", Range(0.1, 15.0))= 15
+		[KeywordEnum(Off, SSS, Refraction, Reflection, Normal, Fresnel, Foam, WaterDepth)] _Debug ("Debug mode", Float) = 0
 	}
 	SubShader
 	{

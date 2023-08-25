@@ -34,6 +34,24 @@ namespace OceanSystem.Data
 
             EditorGUILayout.Space();
             
+            DoSmallHeader("메시 타입 설정");
+            var meshType = serializedObject.FindProperty("meshType");
+            meshType.enumValueIndex = GUILayout.Toolbar(meshType.enumValueIndex, meshType.enumDisplayNames);
+            switch(meshType.enumValueIndex)
+            {
+                case 0:
+                {
+                    EditorGUILayout.HelpBox("Dynamic Mesh 사용", MessageType.Info);
+                }
+                    break;
+                case 1:
+                {
+                    EditorGUILayout.HelpBox("Static Mesh 사용", MessageType.Info);
+                }
+                    break;
+            }
+            EditorGUILayout.Space();
+            
             DoSmallHeader("반사 타입 설정");
             var refType = serializedObject.FindProperty("refType");
             refType.enumValueIndex = GUILayout.Toolbar(refType.enumValueIndex, refType.enumDisplayNames);
@@ -41,7 +59,6 @@ namespace OceanSystem.Data
             {
                 case 0:
                 {
-                    // probe
                     EditorGUILayout.HelpBox("Reflection Probe 사용", MessageType.Info);
                 }
                     break;

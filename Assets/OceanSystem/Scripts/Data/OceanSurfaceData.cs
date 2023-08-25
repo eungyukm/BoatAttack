@@ -10,6 +10,7 @@ namespace OceanSystem.Data
         public Gradient _scatterRamp;
         public FoamSettings _foamSettings = new FoamSettings();
         public ReflectionType refType = ReflectionType.PlanarReflection;
+        public MeshType meshType = MeshType.DynamicMesh;
         [SerializeField]
         public bool _init = false;
     }
@@ -31,5 +32,12 @@ namespace OceanSystem.Data
     {
         ReflectionProbe,
         PlanarReflection
+    }
+
+    [System.Serializable]
+    public enum MeshType
+    {
+        DynamicMesh,
+        StaticMesh
     }
 }

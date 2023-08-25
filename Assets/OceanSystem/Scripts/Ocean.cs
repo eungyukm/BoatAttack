@@ -29,16 +29,8 @@ namespace OceanSystem
         private static readonly int MaxDepth = Shader.PropertyToID("_MaxDepth");
         private static readonly int AbsorptionScatteringRamp = Shader.PropertyToID("_AbsorptionScatteringRamp");
         private static readonly int DepthCamZParams = Shader.PropertyToID("_VeraslWater_DepthCamParams");
-        
-        private enum Refection
-        {
-            ReflectionProbe,
-            PlanrReflection
-        }
 
-        [SerializeField] private Refection reflection = Refection.PlanrReflection;
-
-        private void Start()
+        private void OnEnable()
         {
             Init();
             RenderPipelineManager.beginCameraRendering += BeginCameraRendering;
@@ -48,11 +40,9 @@ namespace OceanSystem
                 resources = Resources.Load("OceanResources") as OceanResources;
             }
         }
-
-        private void OnDestroy() {
+        private void OnDisable() {
             Cleanup();
         }
-
         void Cleanup()
         {
             RenderPipelineManager.beginCameraRendering -= BeginCameraRendering;
@@ -75,15 +65,25 @@ namespace OceanSystem
             Shader.SetGlobalFloat(CameraRoll, roll);
             Shader.SetGlobalMatrix(InvViewProjection,
                 (GL.GetGPUProjectionMatrix(cam.projectionMatrix, false) * cam.worldToCameraMatrix).inverse);
+
+            if (surfaceData.meshType != MeshType.DynamicMesh)
+            {
+                return;
+            }
             
+            CreateDynamicMesh(cam);
+        }
+
+        private void CreateDynamicMesh(Camera cam)
+        {
             const float quantizeValue = 6.25f;
             const float forwards = 10f;
             const float yOffset = -0.25f;
 
             var newPos = cam.transform.TransformPoint(Vector3.forward * forwards);
             newPos.y = yOffset;
-            newPos.x = quantizeValue * (int) (newPos.x / quantizeValue);
-            newPos.z = quantizeValue * (int) (newPos.z / quantizeValue);
+            newPos.x = quantizeValue * (int)(newPos.x / quantizeValue);
+            newPos.z = quantizeValue * (int)(newPos.z / quantizeValue);
 
             var matrix = Matrix4x4.TRS(newPos + transform.position, Quaternion.identity, transform.localScale);
 
@@ -211,9 +211,12 @@ namespace OceanSystem
             _depthCam.allowHDR = false;
             _depthCam.allowMSAA = false;
             _depthCam.cullingMask = (1 << 10);
-            
+
             if (!_depthTex)
+            {
                 _depthTex = new RenderTexture(1024, 1024, 24, RenderTextureFormat.Depth, RenderTextureReadWrite.Linear);
+            }
+                
             if (SystemInfo.graphicsDeviceType == GraphicsDeviceType.OpenGLES2 || SystemInfo.graphicsDeviceType == GraphicsDeviceType.OpenGLES3)
             {
                 _depthTex.filterMode = FilterMode.Point;
