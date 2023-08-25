@@ -22,20 +22,19 @@ namespace OceanSystem.Data
         public override void OnInspectorGUI()
         {
             serializedObject.Update();
-            EditorGUILayout.LabelField("Visual Settings", EditorStyles.boldLabel);
+            EditorGUILayout.LabelField("깊이 투명도", EditorStyles.boldLabel);
             EditorGUI.indentLevel += 1;
             var maxDepth = serializedObject.FindProperty("_waterMaxVisibility");
             EditorGUILayout.Slider(maxDepth, 3, 300, new GUIContent("Maximum Visibility"));
-            DoSmallHeader("Coloring Controls");
+            DoSmallHeader("바다 컬러");
             var absorpRamp = serializedObject.FindProperty("_absorptionRamp");
             EditorGUILayout.PropertyField(absorpRamp, new GUIContent("Absorption Color"), true, null);
             var scatterRamp = serializedObject.FindProperty("_scatterRamp");
             EditorGUILayout.PropertyField(scatterRamp, new GUIContent("Scattering Color"), true, null);
-            DoSmallHeader("Surface Foam");
-            var foamSettings = serializedObject.FindProperty("_foamSettings");
+
             EditorGUILayout.Space();
             
-            DoSmallHeader("refType");
+            DoSmallHeader("반사 타입 설정");
             var refType = serializedObject.FindProperty("refType");
             refType.enumValueIndex = GUILayout.Toolbar(refType.enumValueIndex, refType.enumDisplayNames);
             switch(refType.enumValueIndex)
@@ -54,6 +53,8 @@ namespace OceanSystem.Data
             }
             EditorGUILayout.Space();
             
+            DoSmallHeader("물거품");
+            var foamSettings = serializedObject.FindProperty("_foamSettings");
             EditorGUILayout.BeginHorizontal();
             var basicFoam = foamSettings.FindPropertyRelative("basicFoam");
             basicFoam.animationCurveValue = EditorGUILayout.CurveField(basicFoam.animationCurveValue, Color.white, new Rect(Vector2.zero, Vector2.one));

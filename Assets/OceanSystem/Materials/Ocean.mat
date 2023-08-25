@@ -80,8 +80,8 @@ Material:
     m_Ints: []
     m_Floats:
     - _AlphaClip: 0
-    - _AvgSwellHeight: 0.19
-    - _AvgWavelength: 2.4
+    - _AvgSwellHeight: 0.193
+    - _AvgWavelength: 3.4
     - _Blend: 0
     - _BumpScale: 0.538
     - _Cull: 2
@@ -106,7 +106,7 @@ Material:
     - _Surface: 0
     - _TessellationEdgeLength: 50
     - _UVSec: 0
-    - _WaveCount: 4
+    - _WaveCount: 3
     - _WaveHeight: 0.1
     - _WindDirection: -40
     - _ZWrite: 1
