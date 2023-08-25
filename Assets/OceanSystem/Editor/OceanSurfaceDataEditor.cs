@@ -35,6 +35,25 @@ namespace OceanSystem.Data
             var foamSettings = serializedObject.FindProperty("_foamSettings");
             EditorGUILayout.Space();
             
+            DoSmallHeader("refType");
+            var refType = serializedObject.FindProperty("refType");
+            refType.enumValueIndex = GUILayout.Toolbar(refType.enumValueIndex, refType.enumDisplayNames);
+            switch(refType.enumValueIndex)
+            {
+                case 0:
+                {
+                    // probe
+                    EditorGUILayout.HelpBox("Reflection Probe 사용", MessageType.Info);
+                }
+                    break;
+                case 1:
+                {
+                    EditorGUILayout.HelpBox("Planr Reflection 사용", MessageType.Info);
+                }
+                    break;
+            }
+            EditorGUILayout.Space();
+            
             EditorGUILayout.BeginHorizontal();
             var basicFoam = foamSettings.FindPropertyRelative("basicFoam");
             basicFoam.animationCurveValue = EditorGUILayout.CurveField(basicFoam.animationCurveValue, Color.white, new Rect(Vector2.zero, Vector2.one));

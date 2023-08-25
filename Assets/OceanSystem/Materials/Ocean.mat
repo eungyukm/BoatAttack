@@ -83,7 +83,7 @@ Material:
     - _AvgSwellHeight: 0.19
     - _AvgWavelength: 2.4
     - _Blend: 0
-    - _BumpScale: 0.157
+    - _BumpScale: 0.538
     - _Cull: 2
     - _Cutoff: 0.5
     - _Debug: 0
@@ -108,7 +108,7 @@ Material:
     - _UVSec: 0
     - _WaveCount: 4
     - _WaveHeight: 0.1
-    - _WindDirection: 78
+    - _WindDirection: -40
     - _ZWrite: 1
     - _randomSeed: 1234
     m_Colors:

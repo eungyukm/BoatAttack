@@ -73,11 +73,6 @@ MonoBehaviour:
     m_ColorSpace: -1
     m_NumColorKeys: 4
     m_NumAlphaKeys: 2
-  _basicWaveSettings:
-    numWaves: 3
-    amplitude: 7.77
-    direction: 54
-    wavelength: 1
   _foamSettings:
     basicFoam:
       serializedVersion: 2
@@ -121,4 +116,5 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
+  refType: 1
   _init: 1

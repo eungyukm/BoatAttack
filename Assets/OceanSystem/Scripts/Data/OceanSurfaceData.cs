@@ -9,6 +9,7 @@ namespace OceanSystem.Data
         public Gradient _absorptionRamp;
         public Gradient _scatterRamp;
         public FoamSettings _foamSettings = new FoamSettings();
+        public ReflectionType refType = ReflectionType.PlanarReflection;
         [SerializeField]
         public bool _init = false;
     }
@@ -23,5 +24,12 @@ namespace OceanSystem.Data
             basicFoam = new AnimationCurve(new Keyframe[2]{new Keyframe(0.25f, 0f),
                                                                     new Keyframe(1f, 1f)});
         }
+    }
+    
+    [System.Serializable]
+    public enum ReflectionType
+    {
+        ReflectionProbe,
+        PlanarReflection
     }
 }

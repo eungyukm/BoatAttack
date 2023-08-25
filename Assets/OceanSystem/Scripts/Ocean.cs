@@ -1,4 +1,5 @@
-﻿using OceanSystem.Data;
+﻿using System;
+using OceanSystem.Data;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Experimental.Rendering;
@@ -28,6 +29,14 @@ namespace OceanSystem
         private static readonly int MaxDepth = Shader.PropertyToID("_MaxDepth");
         private static readonly int AbsorptionScatteringRamp = Shader.PropertyToID("_AbsorptionScatteringRamp");
         private static readonly int DepthCamZParams = Shader.PropertyToID("_VeraslWater_DepthCamParams");
+        
+        private enum Refection
+        {
+            ReflectionProbe,
+            PlanrReflection
+        }
+
+        [SerializeField] private Refection reflection = Refection.PlanrReflection;
 
         private void Start()
         {
@@ -132,6 +141,20 @@ namespace OceanSystem
         private void SetWaves()
         {
             Shader.SetGlobalFloat(MaxDepth, surfaceData._waterMaxVisibility);
+            
+            switch(surfaceData.refType)
+            {
+                case ReflectionType.ReflectionProbe:
+                    Shader.EnableKeyword("_REFLECTION_PROBES");
+                    Shader.DisableKeyword("_REFLECTION_PLANARREFLECTION");
+                    break;
+                case ReflectionType.PlanarReflection:
+                    Shader.DisableKeyword("_REFLECTION_PROBES");
+                    Shader.EnableKeyword("_REFLECTION_PLANARREFLECTION");
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
             Shader.EnableKeyword("_REFLECTION_PLANARREFLECTION");
         }
         

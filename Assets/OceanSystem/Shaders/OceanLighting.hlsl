@@ -42,7 +42,7 @@ half3 SampleReflections(half3 normalWS, half3 viewDirectionWS, half2 screenUV, h
     half3 reflection = 0;
     half2 refOffset = 0;
     
-#if _REFLECTION_PLANARREFLECTION
+    #if _REFLECTION_PLANARREFLECTION
     float2 p11_22 = float2(unity_CameraInvProjection._11, unity_CameraInvProjection._22) * 10;
     float3 viewDir = -(float3((screenUV * 2 - 1) / p11_22, -1));
 
@@ -51,7 +51,11 @@ half3 SampleReflections(half3 normalWS, half3 viewDirectionWS, half2 screenUV, h
 
     half2 reflectionUV = screenUV + normalWS.zx * half2(0.02, 0.15);
     reflection += SAMPLE_TEXTURE2D_LOD(_PlanarReflectionTexture, sampler_ScreenTextures_linear_clamp, reflectionUV, 6 * roughness).rgb;//planar reflection
-#endif
+
+    #elif _REFLECTION_PROBES
+    half3 reflectVector = reflect(-viewDirectionWS, normalWS);
+    reflection = GlossyEnvironmentReflection(reflectVector, 0, 1);
+    #endif
     return reflection;
 }
 
