@@ -12,9 +12,11 @@ Material:
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
-  - _DEBUG_OFF
+  - _DEBUG_CAUSTICS
   - _REFLECTION_PLANARREFLECTION
   m_InvalidKeywords:
+  - _CAUSTICS
+  - _CAUSTICS_SHADER
   - _DEBUG_CAUSTIC
   - _DEBUG_DIFFUSE
   - _GLOSSINESS_FROM_BASE_ALPHA
@@ -89,12 +91,15 @@ Material:
     - _AvgWavelength: 4.4
     - _Blend: 0
     - _BumpScale: 0.322
-    - _CausticDistance: 0.97
-    - _CausticsSize: 2.92
-    - _CausticsSpeed: 0.46
+    - _CausticDistance: 0.8
+    - _Caustics: 1
+    - _CausticsDistance: 0.1
+    - _CausticsSize: 0.96
+    - _CausticsSpeed: -1
+    - _CausticsToggle: 1
     - _Cull: 2
     - _Cutoff: 0.5
-    - _Debug: 0
+    - _Debug: 8
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _GlossMapScale: 1

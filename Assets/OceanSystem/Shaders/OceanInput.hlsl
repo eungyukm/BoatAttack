@@ -28,15 +28,11 @@ TEXTURE2D(_FoamMap); SAMPLER(sampler_FoamMap);
 TEXTURE2D(_DitherPattern); SAMPLER(sampler_DitherPattern);
 
 // 커스틱
-bool _CausticsToggle;
-
-// 커스틱 로직
-#if _CAUSTICS_SHADER
 TEXTURE2D(_CausticsMap); SAMPLER(sampler_CausticsMap);
 float _CausticsSize;
 float _CausticsSpeed;
 float _CausticDistance;
-#endif
+
 struct WaterSurfaceData
 {
     half3 absorption;
