@@ -41,6 +41,19 @@ struct OceanVertexOutput // fragment struct
 ///////////////////////////////////////////////////////////////////////////////
 //          	   	      Water shading functions                            //
 ///////////////////////////////////////////////////////////////////////////////
+float3 ReconstructWorldPos(half2 screenPos, float depth)
+{
+	float4x4 mat = UNITY_MATRIX_I_VP;
+	#if UNITY_REVERSED_Z
+	mat._12_22_32_42 = -mat._12_22_32_42;              
+	#else
+	depth = depth * 2 - 1;
+	#endif
+	float4 raw = mul(mat, float4(screenPos * 2 - 1, depth, 1));
+	float3 worldPos = raw.rgb / raw.a;
+	return worldPos;
+}
+
 half3 Scattering(half depth)
 {
 	return SAMPLE_TEXTURE2D(_AbsorptionScatteringRamp, sampler_AbsorptionScatteringRamp, half2(depth, 0.375h)).rgb;
@@ -105,6 +118,12 @@ half4 AdditionalData(float3 postionWS, WaveStruct wave)
 	return data;
 }
 
+float2 CausticUVs(float2 rawUV, float2 offset)
+{
+	float2 uv = rawUV * 3;
+	return uv + offset * 0.1;
+}
+
 OceanVertexOutput WaveVertexOperations(OceanVertexOutput input)
 {
 #ifdef _STATIC_SHADER
@@ -126,7 +145,6 @@ OceanVertexOutput WaveVertexOperations(OceanVertexOutput input)
     input.posWS.y += pow(saturate((-waterDepth + 1.5) * 0.4), 2);
 	
 	WaveStruct wave;
-	// SetupWaves();
 	SampleWaves(input.posWS, saturate((waterDepth * 0.1 + 0.05)), wave);
 	input.normal = wave.normal;
     input.posWS += wave.position;
@@ -237,12 +255,28 @@ half4 OceanFragment(OceanVertexOutput IN) : SV_Target
 	
 	half3 reflection = SampleReflections(IN.normal, IN.viewDir.xyz, screenUV.xy, 0.0);
 	half3 refraction = Refraction(distortion, depth.x, depthMulti);
-	half3 comp = lerp(lerp(refraction, reflection, fresnelTerm) + sss + spec, foam, foamMask);
+
+	// 커스틱
+	float time = _Time.y * 0.1;
+	// 커스틱 Blend
+	half causticsBlendMask = max(waveFoam, edgeFoam) * _CausticDistance;
+	// 커스틱 사이즈 조절
+	float2 modifiedUV = (IN.uv / _CausticsSize);
+	half4 causticBlendA = lerp(SAMPLE_TEXTURE2D(_CausticsMap, sampler_CausticsMap, modifiedUV  + time * _CausticsSpeed), 0, 1-causticsBlendMask);
+	half4 causticBlendB = lerp(SAMPLE_TEXTURE2D(_CausticsMap, sampler_CausticsMap, modifiedUV  * 2.0 * _CausticsSpeed), 0, 1-causticsBlendMask);
+	
+	float CausticsDriver = (causticBlendA.z * causticBlendB.z) * 10 + causticBlendA.z + causticBlendB.z;
+	half3 Caustics = CausticsDriver * half3(causticBlendA.w * 0.5, causticBlendB.w * 0.75, causticBlendB.x) * mainLight.color;
+	half3 comp = lerp(lerp(refraction, reflection, fresnelTerm) + sss + spec + Caustics, foam, foamMask);
 
 	// Fog
     float fogFactor = IN.fogFactorNoise.x;
     comp = MixFog(comp, fogFactor);
-#if defined(_DEBUG_FOAM)
+	
+#if defined(_DEBUG_CAUSTICS)
+	return half4(Caustics, 1); 
+	return half4(causticsBlendMask, 0, 0, 1);
+#elif defined(_DEBUG_FOAM)
     return half4(foamMask.xxx, 1);
 #elif defined(_DEBUG_SSS)
     return half4(sss, 1);

@@ -15,6 +15,7 @@ Material:
   - _DEBUG_OFF
   - _REFLECTION_PLANARREFLECTION
   m_InvalidKeywords:
+  - _DEBUG_CAUSTIC
   - _DEBUG_DIFFUSE
   - _GLOSSINESS_FROM_BASE_ALPHA
   - _SPECULAR_COLOR
@@ -31,6 +32,10 @@ Material:
     m_TexEnvs:
     - _BumpMap:
         m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _CausticsMap:
+        m_Texture: {fileID: 2800000, guid: f395b7d64f44848c6a3cba1f1173fe90, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DetailAlbedoMap:
@@ -84,6 +89,9 @@ Material:
     - _AvgWavelength: 4.4
     - _Blend: 0
     - _BumpScale: 0.322
+    - _CausticDistance: 0.97
+    - _CausticsSize: 2.92
+    - _CausticsSpeed: 0.46
     - _Cull: 2
     - _Cutoff: 0.5
     - _Debug: 0

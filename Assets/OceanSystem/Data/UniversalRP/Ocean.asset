@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Active: 1
   settings:
-    causticScale: 0.107
+    causticScale: 0.173
     causticBlendDistance: 2.72
     debug: 0
   causticShader: {fileID: 4800000, guid: 90939d2e4b62841d29c136c866715501, type: 3}

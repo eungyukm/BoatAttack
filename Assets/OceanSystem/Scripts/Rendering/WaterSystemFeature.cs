@@ -21,14 +21,12 @@ namespace OceanSystem
             public WaterFxPass()
             {
                 m_WaterFX.Init("_WaterFXMap");
-                // only wanting to render transparent objects
                 m_FilteringSettings = new FilteringSettings(RenderQueueRange.transparent);
             }
 
             // Calling Configure since we are wanting to render into a RenderTexture and control cleat
             public override void Configure(CommandBuffer cmd, RenderTextureDescriptor cameraTextureDescriptor)
             {
-                // no need for a depth buffer
                 cameraTextureDescriptor.depthBufferBits = 0;
                 // Half resolution
                 cameraTextureDescriptor.width /= 2;
