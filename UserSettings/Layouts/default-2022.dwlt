@@ -44,7 +44,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 2194.286
+    width: 2194.2856
     height: 1152
   m_MinSize: {x: 875, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
@@ -69,7 +69,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 2194.286
+    width: 2194.2856
     height: 30
   m_MinSize: {x: 0, y: 0}
   m_MaxSize: {x: 0, y: 0}
@@ -91,7 +91,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 1132
-    width: 2194.286
+    width: 2194.2856
     height: 20
   m_MinSize: {x: 0, y: 0}
   m_MaxSize: {x: 0, y: 0}
@@ -114,7 +114,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 30
-    width: 2194.286
+    width: 2194.2856
     height: 1102
   m_MinSize: {x: 400, y: 100}
   m_MaxSize: {x: 32384, y: 16192}
@@ -293,7 +293,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 1653.7142
     y: 0
-    width: 540.57166
+    width: 540.5714
     height: 1102
   m_MinSize: {x: 276, y: 71}
   m_MaxSize: {x: 4001, y: 4021}
@@ -340,9 +340,9 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: f8890b00
-      m_LastClickedID: 756216
-      m_ExpandedIDs: de99a1fe8e9ea1fe509fa1fee4a2a1fe7e9da3fe2ea2a3fef0a2a3fe88a6a3febac3a5fe6ac8a5fe2cc9a5fedccca5fe4485a7fef489a7feb68aa7fe668ea7fe2abeadfedac2adfe9cc3adfe4cc7adfe9096c7fe409bc7fe029cc7feb49fc7fec8fd84ff9022a4ff32ffa9ff08c4fefffefaffff00fbfffff4ffffffda5f0000de5f0000f476000082060800ccad0800b8d9090000810a0084e50a00f46a0b00f86a0b00
+      m_SelectedIDs: 34faffff
+      m_LastClickedID: -1484
+      m_ExpandedIDs: 04fbffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -774,9 +774,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 168.07712, y: -54.100845, z: -77.37524}
+    m_Target: {x: 180.08101, y: -61.52996, z: -87.18173}
     speed: 2
-    m_Value: {x: 168.07712, y: -54.100845, z: -77.37524}
+    m_Value: {x: 180.08101, y: -61.52996, z: -87.18173}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -824,11 +824,11 @@ MonoBehaviour:
   m_Rotation:
     m_Target: {x: -0.471394, y: 0.3931252, z: -0.24729538, w: -0.74979043}
     speed: 2
-    m_Value: {x: -0.4653882, y: 0.40208715, z: -0.2504115, w: -0.7476857}
+    m_Value: {x: -0.471394, y: 0.3931252, z: -0.24729538, w: -0.74979043}
   m_Size:
-    m_Target: 43.709625
+    m_Target: 58.7637
     speed: 2
-    m_Value: 41.827393
+    m_Value: 61.53267
   m_Ortho:
     m_Target: 0
     speed: 2
@@ -998,37 +998,37 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/OceanSystem/Shaders
+    - Assets/OceanSystem/Materials
     m_Globs: []
     m_OriginalText: 
     m_ImportLogFlags: 0
   m_ViewMode: 1
   m_StartGridSize: 16
   m_LastFolders:
-  - Assets/OceanSystem/Shaders
+  - Assets/OceanSystem/Materials
   m_LastFoldersGridSize: 16
   m_LastProjectPath: D:\15_UnityProject\BoatAttack
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 25.285706}
-    m_SelectedIDs: 1c840000
-    m_LastClickedID: 33820
-    m_ExpandedIDs: 00000000788300007a8300007c8300007e83000080830000828300008483000086830000888300008a8300008c83000090830000128400001a8400004e84000000ca9a3bffffff7f
+    m_SelectedIDs: 2e840000
+    m_LastClickedID: 33838
+    m_ExpandedIDs: 000000001c8200001e82000020820000228200002482000026820000288200002a8200002c8200002e82000030820000328200003482000036820000d283000000ca9a3bffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
-      m_Name: Rendering
-      m_OriginalName: Rendering
+      m_Name: 
+      m_OriginalName: 
       m_EditFieldRect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 0
         height: 0
-      m_UserData: 33874
+      m_UserData: 0
       m_IsWaitingForDelay: 0
       m_IsRenaming: 0
-      m_OriginalEventType: 0
+      m_OriginalEventType: 11
       m_IsRenamingFilename: 1
       m_ClientGUIView: {fileID: 11}
     m_SearchString: 
@@ -1042,7 +1042,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000788300007a8300007c8300007e83000080830000828300008483000086830000888300008a8300008c8300008e83000090830000
+    m_ExpandedIDs: 000000001c8200001e82000020820000228200002482000026820000288200002a8200002c8200002e82000030820000328200003482000036820000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1069,19 +1069,19 @@ MonoBehaviour:
   m_ListAreaState:
     m_SelectedInstanceIDs: 
     m_LastClickedInstanceID: 0
-    m_HadKeyboardFocusLastEvent: 0
+    m_HadKeyboardFocusLastEvent: 1
     m_ExpandedInstanceIDs: c6230000407a0000087a0000de710000dc720000da6c00000406000042e3feff1693030090340c00
     m_RenameOverlay:
       m_UserAcceptedRename: 0
-      m_Name: Caustics
-      m_OriginalName: Caustics
+      m_Name: Ocean
+      m_OriginalName: Ocean
       m_EditFieldRect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 0
         height: 0
-      m_UserData: 24158
+      m_UserData: 496
       m_IsWaitingForDelay: 0
       m_IsRenaming: 0
       m_OriginalEventType: 0
@@ -1155,7 +1155,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 1653.7144
     y: 72.571434
-    width: 539.57166
+    width: 539.5714
     height: 1081
   m_SerializedDataModeController:
     m_DataMode: 0
