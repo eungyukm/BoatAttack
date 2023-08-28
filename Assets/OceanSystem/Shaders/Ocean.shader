@@ -4,7 +4,6 @@
 	{
 		_BumpScale("Detail Wave Amount", Range(0, 2)) = 0.2
 		_DitherPattern ("Dithering Pattern", 2D) = "bump" {}
-		[Toggle(_STATIC_SHADER)] _Static ("Static", Float) = 0
 		_SurfaceMap ("SurfaceMap", 2D) = "white" {}
 		_FoamMap ("FoamMap", 2D) = "white" {}
 		
@@ -40,7 +39,6 @@
 			#pragma prefer_hlslcc gles
 			/////////////////SHADER FEATURES//////////////////
 			#pragma shader_feature _REFLECTION_PROBES _REFLECTION_PLANARREFLECTION
-			#pragma multi_compile _ _STATIC_SHADER
 			#pragma shader_feature _DEBUG_OFF _DEBUG_SSS _DEBUG_REFRACTION _DEBUG_REFLECTION _DEBUG_NORMAL _DEBUG_FRESNEL _DEBUG_FOAM _DEBUG_WATERDEPTH _DEBUG_CAUSTICS
 			
             // Lightweight Pipeline keywords

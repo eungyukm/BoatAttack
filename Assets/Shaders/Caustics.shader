@@ -89,11 +89,7 @@
                 float4 WorldPos = ReconstructWorldPos(screenPos.xy, depth).xyzz;
                 float3 LightUVs = mul(WorldPos, _MainLightDir).xyz;
 
-#if defined(_STATIC_SHADER)
-	            float time = 0;
-#else
 	            float time = _Time.x;
-#endif
                 float2 uv = WorldPos.xz * 0.025 + time * 0.25;
                 float waveOffset = SAMPLE_TEXTURE2D(_CausticMap, sampler_CausticMap, uv).w - 0.5;
 

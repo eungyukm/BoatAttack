@@ -126,11 +126,7 @@ float2 CausticUVs(float2 rawUV, float2 offset)
 
 OceanVertexOutput WaveVertexOperations(OceanVertexOutput input)
 {
-#ifdef _STATIC_SHADER
-	float time = 0;
-#else
 	float time = _Time.y;
-#endif
 
     input.normal = float3(0, 1, 0);
 	input.fogFactorNoise.y = ((noise((input.posWS.xz * 0.5) + time) + noise((input.posWS.xz * 1) + time)) * 0.25 - 0.5) + 1;

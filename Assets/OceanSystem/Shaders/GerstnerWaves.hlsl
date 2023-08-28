@@ -28,11 +28,8 @@ struct WaveStruct
 WaveStruct GerstnerWave(half2 pos, float waveCountMulti, half amplitude, half direction, half wavelength, half omni, half2 omniPos)
 {
 	WaveStruct waveOut;
-#if defined(_STATIC_SHADER)
-	float time = 0;
-#else
+	
 	float time = _Time.y;
-#endif
 	half3 wave = 0;
 	half w = 6.28318 / wavelength;
 	half wSpeed = sqrt(9.8 * w);
