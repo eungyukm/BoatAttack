@@ -8,14 +8,14 @@
 		_FoamMap ("FoamMap", 2D) = "white" {}
 		
 		// 파도
-		_WaveCount ("WaveCount", Range(2,6)) = 4
-		_AvgSwellHeight("AvgSwehllHeight", Range(0.1, 3.0)) = 0.4
-		_AvgWavelength("AvgWavelength", Range(1, 120)) = 8
-		_WindDirection("WindDirection", Range(-180, 180)) = -176
+		//_WaveCount ("WaveCount", Range(2,6)) = 4
+		//_AvgSwellHeight("AvgSwehllHeight", Range(0.1, 3.0)) = 0.4
+		//_AvgWavelength("AvgWavelength", Range(1, 120)) = 8
+		//_WindDirection("WindDirection", Range(-180, 180)) = -176
 		
 		// 커스틱
 		[Toggle(_CAUSTICS_SHADER)] _Caustics ("Caustics Toggle", Float) = 0
-		_CausticsMap("CausticsMap", 2D) = "White" {}
+		[HideInInspector] _CausticsMap("CausticsMap", 2D) = "White" {}
 		_CausticsSize("CausticsSize", Range(0.1, 6)) = 0.2
 		_CausticsSpeed("CausticsSpeed", Range(-3, 3)) = 0.01
 		_CausticDistance("CausticDistance", Range(0.1, 3)) = 0.1

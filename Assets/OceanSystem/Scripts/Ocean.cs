@@ -30,6 +30,10 @@ namespace OceanSystem
         private static readonly int AbsorptionScatteringRamp = Shader.PropertyToID("_AbsorptionScatteringRamp");
         private static readonly int DepthCamZParams = Shader.PropertyToID("_VeraslWater_DepthCamParams");
         private static readonly int BumpScale = Shader.PropertyToID("_BumpScale");
+        private static readonly int WaveCount = Shader.PropertyToID("_WaveCount");
+        private static readonly int AvgSwellHeight = Shader.PropertyToID("_AvgSwellHeight");
+        private static readonly int AvgWavelength = Shader.PropertyToID("_AvgWavelength");
+        private static readonly int WindDirection = Shader.PropertyToID("_WindDirection");
 
         private void OnEnable()
         {
@@ -143,6 +147,10 @@ namespace OceanSystem
         {
             Shader.SetGlobalFloat(BumpScale, surfaceData._BumpScale);
             Shader.SetGlobalFloat(MaxDepth, surfaceData._waterMaxVisibility);
+            Shader.SetGlobalInt(WaveCount, surfaceData._WaveCount);
+            Shader.SetGlobalFloat(AvgSwellHeight, surfaceData._AvgSwellHeight);
+            Shader.SetGlobalFloat(AvgWavelength, surfaceData._AvgWavelength);
+            Shader.SetGlobalFloat(WindDirection, surfaceData._WindDirection);
             
             switch(surfaceData.refType)
             {
