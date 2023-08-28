@@ -277,7 +277,7 @@ half4 OceanFragment(OceanVertexOutput IN) : SV_Target
 	#if defined(_CAUSTICS_SHADER)
 	return half4(Caustics, 1);
 	#else
-	return half4(0, 0, 0, 0);
+	return half4(1, 0, 0, 0);
 	#endif
 #elif defined(_DEBUG_FOAM)
     return half4(foamMask.xxx, 1);

@@ -34,6 +34,10 @@ namespace OceanSystem
         private static readonly int AvgSwellHeight = Shader.PropertyToID("_AvgSwellHeight");
         private static readonly int AvgWavelength = Shader.PropertyToID("_AvgWavelength");
         private static readonly int WindDirection = Shader.PropertyToID("_WindDirection");
+        private static readonly int Caustics = Shader.PropertyToID("_Caustics");
+        private static readonly int CausticsSize = Shader.PropertyToID("_CausticsSize");
+        private static readonly int CausticsSpeed = Shader.PropertyToID("_CausticsSpeed");
+        private static readonly int CausticDistance = Shader.PropertyToID("_CausticDistance");
 
         private void OnEnable()
         {
@@ -147,11 +151,28 @@ namespace OceanSystem
         {
             Shader.SetGlobalFloat(BumpScale, surfaceData._BumpScale);
             Shader.SetGlobalFloat(MaxDepth, surfaceData._waterMaxVisibility);
+            
+            // 파도
             Shader.SetGlobalInt(WaveCount, surfaceData._WaveCount);
             Shader.SetGlobalFloat(AvgSwellHeight, surfaceData._AvgSwellHeight);
             Shader.SetGlobalFloat(AvgWavelength, surfaceData._AvgWavelength);
             Shader.SetGlobalFloat(WindDirection, surfaceData._WindDirection);
             
+            // 커스틱
+            switch (surfaceData._Caustics)
+            {
+                case CausticType.CausticOn:
+                    Shader.EnableKeyword("_CAUSTICS_SHADER");
+                    Shader.SetGlobalFloat(CausticsSize, surfaceData._CausticsSize);
+                    Shader.SetGlobalFloat(CausticsSpeed, surfaceData._CausticsSpeed);
+                    Shader.SetGlobalFloat(CausticDistance, surfaceData._CausticDistance);
+                    break;
+                case CausticType.CausticOff:
+                    Shader.DisableKeyword("_CAUSTICS_SHADER");
+                    break;
+            }
+
+
             switch(surfaceData.refType)
             {
                 case ReflectionType.ReflectionProbe:
@@ -165,7 +186,6 @@ namespace OceanSystem
                 default:
                     throw new ArgumentOutOfRangeException();
             }
-            Shader.EnableKeyword("_REFLECTION_PLANARREFLECTION");
         }
         
         private void GenerateColorRamp()

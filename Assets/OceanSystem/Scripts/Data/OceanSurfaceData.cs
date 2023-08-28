@@ -9,10 +9,17 @@ namespace OceanSystem.Data
         public float _BumpScale = 0.2f;
         public Gradient _absorptionRamp;
         public Gradient _scatterRamp;
+        
         public int _WaveCount = 3;
         public float _AvgSwellHeight = 0.4f;
         public int _AvgWavelength = 8;
         public int _WindDirection = -176;
+        
+        public CausticType _Caustics = CausticType.CausticOn;
+        public float _CausticsSize = 0.2f;
+        public float _CausticsSpeed = 0.01f;
+        public float _CausticDistance = 0.1f;
+        
         public FoamSettings _foamSettings = new FoamSettings();
         public ReflectionType refType = ReflectionType.PlanarReflection;
         public MeshType meshType = MeshType.DynamicMesh;
@@ -44,5 +51,12 @@ namespace OceanSystem.Data
     {
         DynamicMesh,
         StaticMesh
+    }
+
+    [System.Serializable]
+    public enum CausticType
+    {
+        CausticOn,
+        CausticOff
     }
 }

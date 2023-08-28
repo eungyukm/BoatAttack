@@ -14,11 +14,11 @@
 		//_WindDirection("WindDirection", Range(-180, 180)) = -176
 		
 		// 커스틱
-		[Toggle(_CAUSTICS_SHADER)] _Caustics ("Caustics Toggle", Float) = 0
-		[HideInInspector] _CausticsMap("CausticsMap", 2D) = "White" {}
-		_CausticsSize("CausticsSize", Range(0.1, 6)) = 0.2
-		_CausticsSpeed("CausticsSpeed", Range(-3, 3)) = 0.01
-		_CausticDistance("CausticDistance", Range(0.1, 3)) = 0.1
+		// [Toggle(_CAUSTICS_SHADER)] _Caustics ("Caustics Toggle", Float) = 0
+		_CausticsMap("CausticsMap", 2D) = "White" {}
+		// _CausticsSize("CausticsSize", Range(0.1, 6)) = 0.2
+		// _CausticsSpeed("CausticsSpeed", Range(-3, 3)) = 0.01
+		// _CausticDistance("CausticDistance", Range(0.1, 3)) = 0.1
 		
 		// 랜덤 seed
 		_randomSeed("randomSeed", int) = 3123
@@ -39,6 +39,7 @@
 			#pragma prefer_hlslcc gles
 			/////////////////SHADER FEATURES//////////////////
 			#pragma shader_feature _REFLECTION_PROBES _REFLECTION_PLANARREFLECTION
+			#pragma shader_feature _CAUSTICS_SHADER
 			#pragma shader_feature _DEBUG_OFF _DEBUG_SSS _DEBUG_REFRACTION _DEBUG_REFLECTION _DEBUG_NORMAL _DEBUG_FRESNEL _DEBUG_FOAM _DEBUG_WATERDEPTH _DEBUG_CAUSTICS
 			
             // Lightweight Pipeline keywords
@@ -47,8 +48,6 @@
             #pragma multi_compile _ _ADDITIONAL_LIGHTS_VERTEX _ADDITIONAL_LIGHTS
             #pragma multi_compile _ _ADDITIONAL_LIGHT_SHADOWS
             #pragma multi_compile _ _SHADOWS_SOFT
-
-			#pragma multi_compile _ _CAUSTICS_SHADER
 			
             // GPU Instancing
             #pragma multi_compile_instancing

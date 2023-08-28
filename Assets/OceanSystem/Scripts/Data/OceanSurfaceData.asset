@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b17284ebf5e80436eb6089f8c7459dab, type: 3}
   m_Name: OceanSurfaceData
   m_EditorClassIdentifier: 
-  _waterMaxVisibility: 20
-  _BumpScale: 0.2
+  _waterMaxVisibility: 62
+  _BumpScale: 0.422
   _absorptionRamp:
     serializedVersion: 2
     key0: {r: 1, g: 1, b: 1, a: 1}
@@ -74,6 +74,14 @@ MonoBehaviour:
     m_ColorSpace: -1
     m_NumColorKeys: 4
     m_NumAlphaKeys: 2
+  _WaveCount: 4
+  _AvgSwellHeight: 1.2
+  _AvgWavelength: 8
+  _WindDirection: 49
+  _Caustics: 0
+  _CausticsSize: 5.76
+  _CausticsSpeed: 0.1
+  _CausticDistance: 0.6
   _foamSettings:
     basicFoam:
       serializedVersion: 2
@@ -117,6 +125,6 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-  refType: 1
+  refType: 0
   meshType: 1
   _init: 1

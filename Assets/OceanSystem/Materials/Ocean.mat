@@ -90,12 +90,12 @@ Material:
     - _AvgSwellHeight: 0.131
     - _AvgWavelength: 4.4
     - _Blend: 0
-    - _BumpScale: 0.322
-    - _CausticDistance: 1.26
+    - _BumpScale: 0.429
+    - _CausticDistance: 0.75
     - _Caustics: 1
     - _CausticsDistance: 0.1
-    - _CausticsSize: 4.69
-    - _CausticsSpeed: 1
+    - _CausticsSize: 3.04
+    - _CausticsSpeed: -0.31
     - _CausticsToggle: 1
     - _Cull: 2
     - _Cutoff: 0.5
@@ -119,7 +119,7 @@ Material:
     - _Surface: 0
     - _TessellationEdgeLength: 50
     - _UVSec: 0
-    - _WaveCount: 3
+    - _WaveCount: 3.15
     - _WaveHeight: 0.1
     - _WindDirection: 89
     - _ZWrite: 1

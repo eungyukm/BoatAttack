@@ -40,7 +40,7 @@ namespace OceanSystem.Data
             EditorGUILayout.PropertyField(scatterRamp, new GUIContent("Scattering Color"), true, null);
             EditorGUILayout.Space();
             
-            EditorGUILayout.LabelField("파도 설정", EditorStyles.boldLabel);
+            DoSmallHeader("파도 설정");
             var WaveCount = serializedObject.FindProperty("_WaveCount");
             EditorGUILayout.IntSlider(WaveCount, 2, 6, new GUIContent("파도의 웨이브 수"));
 
@@ -50,7 +50,31 @@ namespace OceanSystem.Data
             var WindDirection = serializedObject.FindProperty("_WindDirection");
             EditorGUILayout.IntSlider(WindDirection, -180, 180, new GUIContent("바람의 방향"));
             EditorGUILayout.Space();
-            
+        
+            DoSmallHeader("커스틱");
+            var Caustics = serializedObject.FindProperty("_Caustics");
+            Caustics.enumValueIndex = GUILayout.Toolbar(Caustics.enumValueIndex, Caustics.enumDisplayNames);
+            switch(Caustics.enumValueIndex)
+            {
+                case 0:
+                {
+                    var CausticsSize = serializedObject.FindProperty("_CausticsSize");
+                    EditorGUILayout.Slider(CausticsSize, 0.1f, 6.0f, new GUIContent("커스틱 사이즈"));
+                    var CausticsSpeed = serializedObject.FindProperty("_CausticsSpeed");
+                    EditorGUILayout.Slider(CausticsSpeed, -3f, 3f, new GUIContent("커스틱 속도"));
+                    var CausticDistance = serializedObject.FindProperty("_CausticDistance");
+                    EditorGUILayout.Slider(CausticDistance, 0.1f, 3.0f, new GUIContent("커스틱 범위"));
+                    EditorGUILayout.HelpBox("Caustics 사용", MessageType.Info);
+                }
+                    break;
+                case 1:
+                {
+                    EditorGUILayout.HelpBox("Caustics 사용하지 않음", MessageType.Info);
+                }
+                    break;
+            }
+            EditorGUILayout.Space();
+
             DoSmallHeader("메시 타입 설정");
             var meshType = serializedObject.FindProperty("meshType");
             meshType.enumValueIndex = GUILayout.Toolbar(meshType.enumValueIndex, meshType.enumDisplayNames);
