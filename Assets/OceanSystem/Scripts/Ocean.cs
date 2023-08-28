@@ -34,7 +34,6 @@ namespace OceanSystem
         private static readonly int AvgSwellHeight = Shader.PropertyToID("_AvgSwellHeight");
         private static readonly int AvgWavelength = Shader.PropertyToID("_AvgWavelength");
         private static readonly int WindDirection = Shader.PropertyToID("_WindDirection");
-        private static readonly int Caustics = Shader.PropertyToID("_Caustics");
         private static readonly int CausticsSize = Shader.PropertyToID("_CausticsSize");
         private static readonly int CausticsSpeed = Shader.PropertyToID("_CausticsSpeed");
         private static readonly int CausticDistance = Shader.PropertyToID("_CausticDistance");
