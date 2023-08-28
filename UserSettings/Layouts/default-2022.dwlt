@@ -342,7 +342,7 @@ MonoBehaviour:
       scrollPos: {x: 0, y: 0}
       m_SelectedIDs: 34faffff
       m_LastClickedID: -1484
-      m_ExpandedIDs: 04fbffff
+      m_ExpandedIDs: 04fbffffe05f00008c6100002e730000f6760000
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -774,9 +774,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 180.08101, y: -61.52996, z: -87.18173}
+    m_Target: {x: 147.04967, y: -76.38632, z: 1.4925139}
     speed: 2
-    m_Value: {x: 180.08101, y: -61.52996, z: -87.18173}
+    m_Value: {x: 147.04967, y: -76.38632, z: 1.4925139}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -822,13 +822,13 @@ MonoBehaviour:
     m_GridAxis: 1
     m_gridOpacity: 0.5
   m_Rotation:
-    m_Target: {x: -0.471394, y: 0.3931252, z: -0.24729538, w: -0.74979043}
+    m_Target: {x: -0.34255382, y: 0.089944944, z: -0.03306768, w: -0.9346521}
     speed: 2
-    m_Value: {x: -0.471394, y: 0.3931252, z: -0.24729538, w: -0.74979043}
+    m_Value: {x: -0.34258574, y: 0.088538386, z: -0.032552168, w: -0.9347387}
   m_Size:
-    m_Target: 58.7637
+    m_Target: 63.782795
     speed: 2
-    m_Value: 61.53267
+    m_Value: 61.036167
   m_Ortho:
     m_Target: 0
     speed: 2
@@ -1012,8 +1012,8 @@ MonoBehaviour:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 25.285706}
-    m_SelectedIDs: 2e840000
-    m_LastClickedID: 33838
+    m_SelectedIDs: 26840000
+    m_LastClickedID: 33830
     m_ExpandedIDs: 000000001c8200001e82000020820000228200002482000026820000288200002a8200002c8200002e82000030820000328200003482000036820000d283000000ca9a3bffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -1073,18 +1073,18 @@ MonoBehaviour:
     m_ExpandedInstanceIDs: c6230000407a0000087a0000de710000dc720000da6c00000406000042e3feff1693030090340c00
     m_RenameOverlay:
       m_UserAcceptedRename: 0
-      m_Name: Ocean
-      m_OriginalName: Ocean
+      m_Name: 
+      m_OriginalName: 
       m_EditFieldRect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 0
         height: 0
-      m_UserData: 496
+      m_UserData: 0
       m_IsWaitingForDelay: 0
       m_IsRenaming: 0
-      m_OriginalEventType: 0
+      m_OriginalEventType: 11
       m_IsRenamingFilename: 1
       m_ClientGUIView: {fileID: 11}
     m_CreateAssetUtility:

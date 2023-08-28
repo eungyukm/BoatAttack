@@ -258,13 +258,13 @@ half4 OceanFragment(OceanVertexOutput IN) : SV_Target
 	half3 comp = half3(0,0,0);
 	#if defined(_CAUSTICS_SHADER)
 	// 커스틱
-	float time = _Time.y * 0.1;
+	float time = _Time.y * _CausticsSpeed;
 	// 커스틱 Blend
 	half causticsBlendMask = max(waveFoam, edgeFoam) * _CausticDistance;
 	// 커스틱 사이즈 조절
 	float2 modifiedUV = (IN.uv / _CausticsSize);
-	half4 causticBlendA = lerp(SAMPLE_TEXTURE2D(_CausticsMap, sampler_CausticsMap, modifiedUV  + time * _CausticsSpeed), 0, 1-causticsBlendMask);
-	half4 causticBlendB = lerp(SAMPLE_TEXTURE2D(_CausticsMap, sampler_CausticsMap, modifiedUV  * 2.0 * _CausticsSpeed), 0, 1-causticsBlendMask);
+	half4 causticBlendA = lerp(SAMPLE_TEXTURE2D(_CausticsMap, sampler_CausticsMap, modifiedUV  + time), 0, 1-causticsBlendMask);
+	half4 causticBlendB = lerp(SAMPLE_TEXTURE2D(_CausticsMap, sampler_CausticsMap, modifiedUV  - _CausticsSpeed * 0.01), 0, 1-causticsBlendMask);
 	
 	float CausticsDriver = (causticBlendA.z * causticBlendB.z) * 10 + causticBlendA.z + causticBlendB.z;
 	half3 Caustics = CausticsDriver * half3(causticBlendA.w * 0.5, causticBlendB.w * 0.75, causticBlendB.x) * mainLight.color;
