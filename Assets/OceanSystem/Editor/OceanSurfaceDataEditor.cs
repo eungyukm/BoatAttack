@@ -93,6 +93,7 @@ namespace OceanSystem.Data
             }
             EditorGUILayout.Space();
             
+            /* 반사타입 일시 주석
             DoSmallHeader("반사 타입 설정");
             var refType = serializedObject.FindProperty("refType");
             refType.enumValueIndex = GUILayout.Toolbar(refType.enumValueIndex, refType.enumDisplayNames);
@@ -110,6 +111,7 @@ namespace OceanSystem.Data
                     break;
             }
             EditorGUILayout.Space();
+            */
             
             DoSmallHeader("물거품");
             var foamSettings = serializedObject.FindProperty("_foamSettings");

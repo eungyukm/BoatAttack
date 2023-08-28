@@ -252,7 +252,7 @@ half4 OceanFragment(OceanVertexOutput IN) : SV_Target
 	half3 reflection = SampleReflections(IN.normal, IN.viewDir.xyz, screenUV.xy, 0.0);
 	half3 refraction = Refraction(distortion, depth.x, depthMulti);
 	half3 comp = half3(0,0,0);
-	#if defined(_CAUSTICS_SHADER)
+	#if _CAUSTICS_SHADER
 	// 커스틱
 	float time = _Time.y * _CausticsSpeed;
 	// 커스틱 Blend
@@ -274,10 +274,10 @@ half4 OceanFragment(OceanVertexOutput IN) : SV_Target
     comp = MixFog(comp, fogFactor);
 	
 #if defined(_DEBUG_CAUSTICS)
-	#if defined(_CAUSTICS_SHADER)
+	#if _CAUSTICS_SHADER
 	return half4(Caustics, 1);
 	#else
-	return half4(1, 0, 0, 0);
+	return half4(0, 0, 0, 0);
 	#endif
 #elif defined(_DEBUG_FOAM)
     return half4(foamMask.xxx, 1);

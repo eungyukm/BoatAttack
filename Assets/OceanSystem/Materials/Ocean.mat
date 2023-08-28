@@ -12,16 +12,9 @@ Material:
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
-  - _CAUSTICS_SHADER
   - _DEBUG_OFF
   - _REFLECTION_PLANARREFLECTION
-  m_InvalidKeywords:
-  - _CAUSTICS
-  - _DEBUG_CAUSTIC
-  - _DEBUG_DIFFUSE
-  - _GLOSSINESS_FROM_BASE_ALPHA
-  - _SPECULAR_COLOR
-  - _STATIC_WATER
+  m_InvalidKeywords: []
   m_LightmapFlags: 6
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 1

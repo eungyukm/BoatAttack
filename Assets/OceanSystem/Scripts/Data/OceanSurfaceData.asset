@@ -74,14 +74,14 @@ MonoBehaviour:
     m_ColorSpace: -1
     m_NumColorKeys: 4
     m_NumAlphaKeys: 2
-  _WaveCount: 4
-  _AvgSwellHeight: 1.2
+  _WaveCount: 3
+  _AvgSwellHeight: 0.32
   _AvgWavelength: 8
   _WindDirection: 49
-  _Caustics: 0
-  _CausticsSize: 5.76
-  _CausticsSpeed: 0.1
-  _CausticDistance: 0.6
+  _Caustics: 1
+  _CausticsSize: 4.17
+  _CausticsSpeed: 0.2
+  _CausticDistance: 2.56
   _foamSettings:
     basicFoam:
       serializedVersion: 2

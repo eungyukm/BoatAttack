@@ -21,7 +21,7 @@ namespace OceanSystem.Data
         public float _CausticDistance = 0.1f;
         
         public FoamSettings _foamSettings = new FoamSettings();
-        public ReflectionType refType = ReflectionType.PlanarReflection;
+        public ReflectionType refType = ReflectionType.ReflectionProbe;
         public MeshType meshType = MeshType.DynamicMesh;
         [SerializeField]
         public bool _init = false;
