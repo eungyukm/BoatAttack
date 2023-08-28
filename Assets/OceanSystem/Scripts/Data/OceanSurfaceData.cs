@@ -6,6 +6,7 @@ namespace OceanSystem.Data
     public class OceanSurfaceData : ScriptableObject
     {
         public float _waterMaxVisibility = 40.0f;
+        public float _BumpScale = 0.2f;
         public Gradient _absorptionRamp;
         public Gradient _scatterRamp;
         public FoamSettings _foamSettings = new FoamSettings();

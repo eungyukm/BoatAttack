@@ -29,6 +29,7 @@ namespace OceanSystem
         private static readonly int MaxDepth = Shader.PropertyToID("_MaxDepth");
         private static readonly int AbsorptionScatteringRamp = Shader.PropertyToID("_AbsorptionScatteringRamp");
         private static readonly int DepthCamZParams = Shader.PropertyToID("_VeraslWater_DepthCamParams");
+        private static readonly int BumpScale = Shader.PropertyToID("_BumpScale");
 
         private void OnEnable()
         {
@@ -140,6 +141,7 @@ namespace OceanSystem
 
         private void SetWaves()
         {
+            Shader.SetGlobalFloat(BumpScale, surfaceData._BumpScale);
             Shader.SetGlobalFloat(MaxDepth, surfaceData._waterMaxVisibility);
             
             switch(surfaceData.refType)

@@ -2,7 +2,7 @@
 {
 	Properties
 	{
-		_BumpScale("Detail Wave Amount", Range(0, 2)) = 0.2
+		//_BumpScale("Detail Wave Amount", Range(0, 2)) = 0.2
 		_DitherPattern ("Dithering Pattern", 2D) = "bump" {}
 		_SurfaceMap ("SurfaceMap", 2D) = "white" {}
 		_FoamMap ("FoamMap", 2D) = "white" {}
@@ -22,7 +22,7 @@
 		
 		// 랜덤 seed
 		_randomSeed("randomSeed", int) = 3123
-		_MaxWaveHeight ("MaxWaveHeight", Range(0.1, 15.0))= 15
+		[HideInInspector] _MaxWaveHeight ("MaxWaveHeight", Range(0.1, 15.0))= 15
 		[KeywordEnum(Off, SSS, Refraction, Reflection, Normal, Fresnel, Foam, WaterDepth, Caustics)] _Debug ("Debug mode", Float) = 0
 	}
 	SubShader
