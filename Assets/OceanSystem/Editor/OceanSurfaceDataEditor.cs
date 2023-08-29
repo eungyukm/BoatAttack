@@ -45,7 +45,7 @@ namespace OceanSystem.Data
             EditorGUILayout.IntSlider(WaveCount, 2, 6, new GUIContent("파도의 웨이브 수"));
 
             var AvgSwellHeight = serializedObject.FindProperty("_AvgSwellHeight");
-            EditorGUILayout.Slider(AvgSwellHeight, 0.1f, 3.0f, new GUIContent("파도의 높이"));
+            EditorGUILayout.Slider(AvgSwellHeight, 0.01f, 3.0f, new GUIContent("파도의 높이"));
             
             var AvgWavelength = serializedObject.FindProperty("_AvgWavelength");
             EditorGUILayout.IntSlider(AvgWavelength, 1, 120, new GUIContent("파도의 길이"));

@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b17284ebf5e80436eb6089f8c7459dab, type: 3}
   m_Name: OceanSurfaceData
   m_EditorClassIdentifier: 
-  _waterMaxVisibility: 22.6
-  _BumpScale: 0.416
+  _waterMaxVisibility: 16
+  _BumpScale: 0.222
   _absorptionRamp:
     serializedVersion: 2
     key0: {r: 1, g: 1, b: 1, a: 1}
@@ -49,16 +49,16 @@ MonoBehaviour:
     key0: {r: 0, g: 0, b: 0, a: 1}
     key1: {r: 0.07843137, g: 0.24471705, b: 0.4117647, a: 1}
     key2: {r: 0.12549019, g: 0.50673026, b: 0.58431375, a: 0}
-    key3: {r: 0.28888598, g: 0.45325178, b: 0.542, a: 0}
-    key4: {r: 0.19571698, g: 0.3647036, b: 0.45099998, a: 0}
+    key3: {r: 0.08730863, g: 0.5076678, b: 0.5943396, a: 0}
+    key4: {r: 0.28888598, g: 0.45325178, b: 0.542, a: 0}
     key5: {r: 0, g: 0, b: 0, a: 0}
     key6: {r: 0, g: 0, b: 0, a: 0}
     key7: {r: 0, g: 0, b: 0, a: 0}
     ctime0: 0
-    ctime1: 3277
-    ctime2: 24672
-    ctime3: 52043
-    ctime4: 63029
+    ctime1: 8288
+    ctime2: 51464
+    ctime3: 65535
+    ctime4: 65535
     ctime5: 0
     ctime6: 0
     ctime7: 0
@@ -71,13 +71,13 @@ MonoBehaviour:
     atime6: 0
     atime7: 0
     m_Mode: 0
-    m_ColorSpace: -1
+    m_ColorSpace: 0
     m_NumColorKeys: 4
     m_NumAlphaKeys: 2
   _WaveCount: 3
-  _AvgSwellHeight: 0.25
-  _AvgWavelength: 10
-  _WindDirection: 3
+  _AvgSwellHeight: 0.01
+  _AvgWavelength: 7
+  _WindDirection: 4
   _Caustics: 0
   _CausticsSize: 4.26
   _CausticsSpeed: -0.012
