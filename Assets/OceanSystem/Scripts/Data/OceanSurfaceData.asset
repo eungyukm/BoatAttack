@@ -77,7 +77,7 @@ MonoBehaviour:
   _WaveCount: 3
   _AvgSwellHeight: 0.25
   _AvgWavelength: 10
-  _WindDirection: -75
+  _WindDirection: 3
   _Caustics: 0
   _CausticsSize: 4.26
   _CausticsSpeed: -0.012

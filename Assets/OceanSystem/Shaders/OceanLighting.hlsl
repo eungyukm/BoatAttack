@@ -33,8 +33,7 @@ half SoftShadows(float3 screenUV, float3 positionWS, half3 viewDir, half depth)
 	    shadowAttenuation += SAMPLE_TEXTURE2D_SHADOW(_MainLightShadowmapTexture, sampler_MainLightShadowmapTexture, TransformWorldToShadowCoord(lightJitter));
 	}
 	// TODO : 그림자 처리 개선
-	// return BEYOND_SHADOW_FAR(TransformWorldToShadowCoord(positionWS * 1.1)) ? 1.0 : shadowAttenuation * loopDiv;
-    return 1;
+	return BEYOND_SHADOW_FAR(TransformWorldToShadowCoord(positionWS * 1.1)) ? 1.0 : shadowAttenuation * loopDiv;
 #else
     return 1;
 #endif
