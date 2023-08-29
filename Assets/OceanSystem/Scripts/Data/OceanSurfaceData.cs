@@ -22,7 +22,7 @@ namespace OceanSystem.Data
         
         public FoamSettings _foamSettings = new FoamSettings();
         public ReflectionType refType = ReflectionType.ReflectionProbe;
-        public MeshType meshType = MeshType.DynamicMesh;
+        public MeshType meshType = MeshType.StaticMesh;
         [SerializeField]
         public bool _init = false;
     }
