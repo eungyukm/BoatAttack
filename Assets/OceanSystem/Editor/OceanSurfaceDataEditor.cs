@@ -77,7 +77,8 @@ namespace OceanSystem.Data
                     break;
             }
             EditorGUILayout.Space();
-
+            
+            /* 메시 타입 주석
             DoSmallHeader("메시 타입 설정");
             var meshType = serializedObject.FindProperty("meshType");
             meshType.enumValueIndex = GUILayout.Toolbar(meshType.enumValueIndex, meshType.enumDisplayNames);
@@ -95,6 +96,7 @@ namespace OceanSystem.Data
                     break;
             }
             EditorGUILayout.Space();
+            */
             
             /* 반사타입 일시 주석
             DoSmallHeader("반사 타입 설정");
