@@ -27,7 +27,7 @@ namespace OceanSystem.Data
             var maxDepth = serializedObject.FindProperty("_waterMaxVisibility");
             EditorGUILayout.Slider(maxDepth, 3, 300, new GUIContent("Maximum Visibility"));
             
-            EditorGUILayout.LabelField("바다 디테일", EditorStyles.boldLabel);
+            EditorGUILayout.LabelField("파도 디테일", EditorStyles.boldLabel);
             EditorGUI.indentLevel += 1;
             var bumpScale = serializedObject.FindProperty("_BumpScale");
             EditorGUILayout.Slider(bumpScale, 0, 2, new GUIContent("Detail Wave Amount"));
