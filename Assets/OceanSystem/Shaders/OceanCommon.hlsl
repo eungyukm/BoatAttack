@@ -254,7 +254,7 @@ half4 OceanFragment(OceanVertexOutput IN) : SV_Target
 	half3 comp = half3(0,0,0);
 	#if _CAUSTICS_SHADER
 	// 커스틱
-	float time = _Time.y * _CausticsSpeed;
+	float time = _Time.y * _CausticsSpeed * 0.1;
 	// 커스틱 Blend
 	half causticsBlendMask = max(waveFoam, edgeFoam) * _CausticDistance;
 	// 커스틱 사이즈 조절

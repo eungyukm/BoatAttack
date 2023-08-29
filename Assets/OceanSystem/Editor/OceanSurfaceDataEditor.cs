@@ -61,7 +61,7 @@ namespace OceanSystem.Data
                     var CausticsSize = serializedObject.FindProperty("_CausticsSize");
                     EditorGUILayout.Slider(CausticsSize, 0.1f, 6.0f, new GUIContent("커스틱 사이즈"));
                     var CausticsSpeed = serializedObject.FindProperty("_CausticsSpeed");
-                    EditorGUILayout.Slider(CausticsSpeed, -3f, 3f, new GUIContent("커스틱 속도"));
+                    EditorGUILayout.Slider(CausticsSpeed, -1f, 1f, new GUIContent("커스틱 속도"));
                     var CausticDistance = serializedObject.FindProperty("_CausticDistance");
                     EditorGUILayout.Slider(CausticDistance, 0.1f, 3.0f, new GUIContent("커스틱 범위"));
                     EditorGUILayout.HelpBox("Caustics 사용", MessageType.Info);
