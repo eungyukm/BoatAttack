@@ -15,6 +15,8 @@ half SoftShadows(float3 screenUV, float3 positionWS, half3 viewDir, half depth)
 {
 #if _MAIN_LIGHT_SHADOWS
     half2 jitterUV = screenUV.xy * _ScreenParams.xy * _DitherPattern_TexelSize.xy;
+	jitterUV = clamp(jitterUV, 0.0h, 1.0h);
+
 	half shadowAttenuation = 0;
 
 	float loopDiv = 1.0 / SHADOW_ITERATIONS;
@@ -30,7 +32,9 @@ half SoftShadows(float3 screenUV, float3 positionWS, half3 viewDir, half depth)
 	    float3 lightJitter = (positionWS + j) + (lightOffset * (i + jitterTexture.y));
 	    shadowAttenuation += SAMPLE_TEXTURE2D_SHADOW(_MainLightShadowmapTexture, sampler_MainLightShadowmapTexture, TransformWorldToShadowCoord(lightJitter));
 	}
-    return BEYOND_SHADOW_FAR(TransformWorldToShadowCoord(positionWS * 1.1)) ? 1.0 : shadowAttenuation * loopDiv;
+	// TODO : 그림자 처리 개선
+	// return BEYOND_SHADOW_FAR(TransformWorldToShadowCoord(positionWS * 1.1)) ? 1.0 : shadowAttenuation * loopDiv;
+    return 1;
 #else
     return 1;
 #endif
