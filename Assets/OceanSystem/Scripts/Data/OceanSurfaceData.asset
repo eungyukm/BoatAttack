@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b17284ebf5e80436eb6089f8c7459dab, type: 3}
   m_Name: OceanSurfaceData
   m_EditorClassIdentifier: 
-  _waterMaxVisibility: 62
-  _BumpScale: 0.422
+  _waterMaxVisibility: 22.6
+  _BumpScale: 0.416
   _absorptionRamp:
     serializedVersion: 2
     key0: {r: 1, g: 1, b: 1, a: 1}
@@ -75,13 +75,13 @@ MonoBehaviour:
     m_NumColorKeys: 4
     m_NumAlphaKeys: 2
   _WaveCount: 3
-  _AvgSwellHeight: 0.32
-  _AvgWavelength: 8
-  _WindDirection: 49
-  _Caustics: 1
-  _CausticsSize: 4.17
-  _CausticsSpeed: 0.2
-  _CausticDistance: 2.56
+  _AvgSwellHeight: 0.25
+  _AvgWavelength: 10
+  _WindDirection: -75
+  _Caustics: 0
+  _CausticsSize: 4.26
+  _CausticsSpeed: -0.012
+  _CausticDistance: 0.85
   _foamSettings:
     basicFoam:
       serializedVersion: 2
@@ -89,38 +89,20 @@ MonoBehaviour:
       - serializedVersion: 3
         time: 0
         value: 0
-        inSlope: 0.16228558
-        outSlope: 0.16228558
+        inSlope: 0
+        outSlope: 0
         tangentMode: 0
         weightedMode: 0
         inWeight: 0
-        outWeight: 0.15316528
-      - serializedVersion: 3
-        time: 0.5789138
-        value: 0.45827073
-        inSlope: 1.2551872
-        outSlope: 1.2551872
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0.28785437
-      - serializedVersion: 3
-        time: 0.8523668
-        value: 0.81129223
-        inSlope: 1.9929253
-        outSlope: 1.9929253
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0.27977753
-        outWeight: 0.33333334
+        outWeight: 0
       - serializedVersion: 3
         time: 1
         value: 1
-        inSlope: 0.6611113
-        outSlope: 0.6611113
+        inSlope: 0
+        outSlope: 0
         tangentMode: 0
         weightedMode: 0
-        inWeight: 0.55429333
+        inWeight: 0
         outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
